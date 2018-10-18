@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 
-@include('includes.head',[$title=>'title'])
+@include('includes.head',[$title=>'Login Page'])
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">

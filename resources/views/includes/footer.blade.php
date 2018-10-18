@@ -8,7 +8,7 @@
     <strong>Copyright &copy; 2016 <a href="#">Company</a>.</strong> All rights reserved.
   </footer>
 
-  @include('includes.control_sidebar')
+  <!-- @include('includes.control_sidebar') -->
   <!-- /.control-sidebar -->
   <!-- Add the sidebar's background. This div must be placed
   immediately after the control sidebar -->

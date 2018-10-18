@@ -37,8 +37,8 @@
                   </span>
                 </a>
                 <ul class="treeview-menu">
-                  <li><a href={{route('ProductAttributeValueControllers.index')}}>Attributes</a></li>
-                  <li><a href={{route('ProductAttributeValueControllers_values.index')}}>Attribute Values</a></li>
+                  <li><a href={{route('product_attributes.index')}}>Attributes</a></li>
+                  <li><a href={{route('product_attributes_values.index')}}>Attribute Values</a></li>
               
                 </ul>
             </li>

@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Banner as Banner;
-use Image;
+use Image,Config;
+use Illuminate\Support\Facades\Input;
 class BannerController extends Controller
 {
     /**
@@ -52,11 +53,14 @@ class BannerController extends Controller
         }
         $path=$request->image->store('public/banners');
        
-        
         $banner->image=explode('/',$path)[2];
-        
-         $thumb_img = Image::make($request->image)->resize(200,200);
-         $thumb_img->save('public/banners/Small/'.$banner->image);
+       // $small_image_path=$request->image->storeAs('public/banners/small',$banner->image);
+        $small_img = Image::make($request->image)->resize(200,200);
+        $small_img->save(storage_path('app/public/banners/small/'.$banner->image),80);
+        $medium_img = Image::make($request->image)->resize(400,400);
+        $medium_img->save(storage_path('app/public/banners/medium/'.$banner->image),80);
+        $large_img = Image::make($request->image)->resize(700,700);
+        $large_img->save(storage_path('app/public/banners/large/'.$banner->image),80);
         $banner->status=$request->status;
         $banner->created_by=auth()->user()->id;
         $banner->modified_by=auth()->user()->id;
