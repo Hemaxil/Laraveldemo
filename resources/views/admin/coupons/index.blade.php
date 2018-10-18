@@ -1,0 +1,99 @@
+@extends('layouts.master')
+@section('content')
+<div class="panel panel-default">
+	  <div class="panel-heading">Coupons Details
+	  	<a class="btn btn-primary glyphicon glyphicon-plus" href={{route('coupons.create')}}></a>
+      
+	  	<a id="delete_btn" class="btn btn-danger glyphicon glyphicon-trash"></a>
+	  </div>
+	  </div>
+	  <div class="panel-body">
+	  	<div class="table-responsive">
+		  	@empty($coupons)
+				<h5>No Coupons Found</h5>
+			@endempty
+			@if (count($errors) > 0)
+  				<div class="alert alert-danger">
+	    		{{-- 	<strong>Whoops!</strong> There were some problems with your input.<br><br> --}}
+	    			<ul>
+	       				@foreach ($errors->all() as $error)
+	         				<li>{{ $error }}</li>
+	       				@endforeach
+	    			</ul>
+  				</div>
+			@endif
+			 <div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title">Coupons</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table class="table table-bordered">
+                <tr>
+                  	<th><input type=checkbox id="head" class="checkbox"></th>
+                  	<th>Code</th>
+					<th>Percent Off</th>
+					<th>No of Uses</th>
+					<th>Status</th>
+					<th>Action</th>
+                </tr>
+                <tbody id="table_body">
+					
+							
+					@foreach($coupons as $coupon)
+					<tr>
+						<td><input type=checkbox class="checkbox" id={{$coupon->id}}></td>
+						<td>{{$coupon->code}}</td>
+						<td>{{$coupon->percent_off}}</td>
+						<td>{{$coupon->no_of_uses}}</td>
+						<td class="status" style=" cursor: pointer;">
+							@if($coupon->status==1)
+								<a class="status-1-{{$coupon->id}}">Enabled</a>
+								<a class="status-0-{{$coupon->id}}" hidden>Disabled</a>
+							@else
+								<a class="status-1-{{$coupon->id}}" hidden>Enabled</a>
+								<a class="status-0-{{$coupon->id}}">Disabled</a>
+							@endif
+						</td>
+						<td><a id='coupon.{{$coupon->id}}' href={{route('coupons.edit',['coupon'=>$coupon->id])}} class="btn btn-primary glyphicon glyphicon-pencil" ></a>
+							<a><i class="delete_single btn btn-danger glyphicon glyphicon-trash" id={{$coupon->id}}></i></a>
+							<form id='delete{{$coupon->id}}' method="POST" action="{{route('coupons.destroy',['coupon'=>$coupon->id])}}">
+								@method('DELETE')
+								@csrf
+								<input style="display:none;" type="submit" class="btn btn-danger">
+
+							</form></td>
+					</tr>
+					@endforeach
+							
+					
+				</tbody>
+              </table>
+            </div>
+            <!-- /.box-body -->
+              <div class="box-footer clearfix">
+              <ul class="pagination pagination-sm no-margin pull-right">
+                {{$coupons->links()}}
+              </ul>
+            </div>
+          </div>
+		</div>
+	  </div>
+	</div>
+
+@endsection
+@section('additional_js')
+<script type="text/javascript" src={{asset("js/roles.js")}}></script>
+<script type="text/javascript">
+	$(".delete_single").click(function(event){
+		event.preventDefault();
+		yes_del=confirm("Do you want to delete?");
+		if(yes_del==1){
+			$("#delete"+this.id).submit();
+		}});
+	delete_btn('{{route('coupons.destroy_all')}}');
+	update_status('{{route('coupons.update_status')}}');
+	$(".breadcrumb").append('<li class="active"><a href="{{route('coupons.index')}}">Coupons</a></li>');
+</script>
+	
+@endsection
