@@ -161,6 +161,22 @@
     <script src={{asset("eshopper/js/jquery.scrollUp.min.js")}}></script>
     <script src={{asset("eshopper/js/price-range.js")}}></script>
     <script src={{asset("eshopper/js/jquery.prettyPhoto.js")}}></script>
+    <script type="text/javascript">
+    	$(".dropdown").hover(function(){
+    		let ab=this.className;
+    		var object=$(this);
+    		var id=ab.split('_')[2];
+    		$.ajax({
+    			url:"{{route('categorytree')}}",
+				headers:{'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')},
+				data:{'id':id},
+            	type: "get",
+    		}).done(function(result){
+    			console.log(result);
+    			obj.append("<ul><li>"+result+"<li><ul>")
+    		});
+    	})
+    </script>
     <script src={{asset("eshopper/js/main.js")}}></script>
 
 <!--/Footer-->

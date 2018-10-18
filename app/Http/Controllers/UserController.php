@@ -138,4 +138,11 @@ class UserController extends Controller
         echo json_encode([$request->id,$status]);
 
     }
+
+     public function destroy($id)
+    {
+       
+        User::destroy($id);
+        return redirect()->route('users.index');
+    }
 }

@@ -23,27 +23,27 @@
       <div class="box-body">
         <div class="form-group">
           {{Form::label('title', 'Title',['class'=>'col-sm-2 control-label'])}}
-          <div class="col-sm-10">
+          <div class="col-sm-4">
             {{Form::text ('title','',['class'=>' form-control'])}}
           </div>
         </div>
       <div class="form-group">
         {{Form::label('content', 'Content',['class'=>'col-sm-2 control-label'])}}
-        <div class="col-sm-10">
-          {{Form::textarea ('content','',['class'=>' form-control','rows'=>'5','col'=>'10'])}}
+        <div class="col-sm-4">
+          {{Form::textarea ('content','',['class'=>' form-control','rows'=>'4'])}}
         </div>
       </div>
       <div class="form-group">
         {{Form::label('image', 'Image Upload',['class'=>'col-sm-2 control-label'])}}
-        <div class="col-sm-10">
+        <div class="col-sm-4">
           {{Form::file ('image')}}
           <p class="help-block">Please enter image files only</p>
         </div>
       </div>
       <div class="form-group">
           {{Form::label('status', 'Status',['class'=>'col-sm-2 control-label'])}}
-          <div class="col-sm-10">
-            {{Form::select('status', ['0' => 'Disabled', '1' => 'Enabled'], '1',['class'=>'custom-select '])}}
+          <div class="col-sm-4">
+            {{Form::select('status', ['0' => 'Disabled', '1' => 'Enabled'], '1',['class'=>'form-control '])}}
           </div>
    
       </div>

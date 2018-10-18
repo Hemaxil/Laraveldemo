@@ -79,7 +79,7 @@
 			<div class="col-md-6">
 		        <div class="form-group">
 		           {{Form::label('special_price_from', 'Special Price from',['class'=>'control-label'])}}
-		           {{Form::date ('special_price_from',date('Y-m-d'),['class'=>'form-control','min'=>date('Y-m-d')])}} 
+		           {{Form::date ('special_price_from','',['class'=>'form-control','min'=>date('Y-m-d')])}} 
 		        </div>
 		    </div>
 		    <div class="col-md-6">

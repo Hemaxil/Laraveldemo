@@ -51,7 +51,7 @@
                       @foreach($user->getRoleNames() as $role)
                         <p class="btn btn-info">{{$role}}</p>
                       @endforeach</td>
-                    <td class="status">
+                    <td class="status" style="cursor:pointer;">
                       @if($user->status==1)
                         <a class="status-1-{{$user->id}}">Enabled</a>
                         <a class="status-0-{{$user->id}}" hidden>Disabled</a>
@@ -60,7 +60,14 @@
                         <a class="status-0-{{$user->id}}">Disabled</a>
                       @endif
                     </td>
-                    <td><a id='user.{{$user->id}}' href={{route('users.edit',['user'=>$user->id])}} class="btn btn-primary glyphicon glyphicon-pencil" ></a></td>
+                    <td><a id='user.{{$user->id}}' href={{route('users.edit',['user'=>$user->id])}} class="btn btn-primary glyphicon glyphicon-pencil" ></a>
+                    <a><i class="delete_single btn btn-danger glyphicon glyphicon-trash" id={{$user->id}}></i></a>
+                    <form id='delete{{$user->id}}' method="POST" action="{{route('users.destroy',['user'=>$user->id])}}">
+                      @method('DELETE')
+                      @csrf
+                      <input style="display:none;" type="submit" class="btn btn-danger">
+
+                    </form></td>
                   </tr>
                   @endforeach
               
@@ -86,7 +93,13 @@
 @section('additional_js')
 <script type="text/javascript" src={{asset("js/roles.js")}}></script>
 <script type="text/javascript">
-  delete_btn('{{route('users.destroy')}}');
+  $(".delete_single").click(function(event){
+    event.preventDefault();
+    yes_del=confirm("Do you want to delete?");
+    if(yes_del==1){
+      $("#delete"+this.id).submit();
+    }});
+  delete_btn('{{route('users.destroy_all')}}');
   update_status('{{route('users.update_status')}}');
   $(".breadcrumb").append('<li class="active"><a href="{{route('users.index')}}">Users</a></li>');
 </script>

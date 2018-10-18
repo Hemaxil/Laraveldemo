@@ -23,27 +23,27 @@
       <div class="box-body">
         <div class="form-group">
           {{Form::label('title', 'Title',['class'=>'col-sm-2 control-label'])}}
-          <div class="col-sm-10">
+          <div class="col-sm-4">
             {{Form::text ('title',null,['class'=>' form-control'])}}
           </div>
         </div>
       <div class="form-group">
         {{Form::label('content', 'Content',['class'=>'col-sm-2 control-label'])}}
-        <div class="col-sm-10">
-          {{Form::textarea ('content',null,['class'=>' form-control','rows'=>'5','col'=>'10'])}}
+        <div class="col-sm-4">
+          {{Form::textarea ('content',null,['class'=>' form-control','rows'=>'4'])}}
         </div>
       </div>
       <div class="form-group">
         {{Form::label('image', 'Image Upload',['class'=>'col-sm-2 control-label'])}}
-        <div class="col-sm-10">
+        <div class="col-sm-4">
           {{Form::file ('image')}}
           <p class="help-block"><img src="{{asset('storage/banners/'.$banner->image)}}"></p>
         </div>
       </div>
       <div class="form-group">
           {{Form::label('status', 'Status',['class'=>'col-sm-2 control-label'])}}
-          <div class="col-sm-10">
-            {{Form::select('status', ['0' => 'Disabled', '1' => 'Enabled'], null,['class'=>'custom-select '])}}
+          <div class="col-sm-4">
+            {{Form::select('status', ['0' => 'Disabled', '1' => 'Enabled'], null,['class'=>'form-control '])}}
           </div>
    
       </div>

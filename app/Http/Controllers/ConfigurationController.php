@@ -127,4 +127,11 @@ class ConfigurationController extends Controller
         echo json_encode([$request->id,$status]);
 
     }
+
+    public function destroy($id)
+    {
+       
+        Configuration::destroy($id);
+        return redirect()->route('configurations.index');
+    }
 }

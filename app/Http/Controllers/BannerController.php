@@ -149,4 +149,12 @@ class BannerController extends Controller
         echo json_encode([$request->id,$status]);
 
     }
+
+
+     public function destroy($id)
+    {
+       
+        Banner::destroy($id);
+        return redirect()->route('banners.index');
+    }
 }

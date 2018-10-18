@@ -489,4 +489,7 @@
 	
 
 @endsection
+@section('additional_js')
+
+@endsection
 	

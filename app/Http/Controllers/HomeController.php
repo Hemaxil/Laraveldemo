@@ -28,7 +28,7 @@ class HomeController extends Controller
      */
     public function index(Request $request){
         
-        return view('index',['banners'=>$this->banners,'configuration'=>$this->configuration,'parent_categories'=>$this->parent_categories,'categories'=>$this->categories]);
+        return view('index',['banners'=>$this->banners,'configurations'=>$this->configuration,'parent_categories'=>$this->parent_categories,'categories'=>$this->categories]);
     }
 
 

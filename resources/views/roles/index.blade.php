@@ -40,7 +40,14 @@
 					<tr>
 						<td><input type=checkbox class="checkbox" id={{$role->id}}></td>
 						<td>{{$role->name}}</td>
-						<td><a id='configuration.{{$role->id}}' href={{route('roles.edit',['role'=>$role->id])}} class="btn btn-primary glyphicon glyphicon-pencil" ></a></td>
+						<td><a id='role.{{$role->id}}' href={{route('roles.edit',['role'=>$role->id])}} class="btn btn-primary glyphicon glyphicon-pencil" ></a>
+							<a><i class="delete_single btn btn-danger glyphicon glyphicon-trash" id={{$role->id}}></i></a>
+							<form id='delete{{$role->id}}' method="POST" action="{{route('roles.destroy',['role'=>$role->id])}}">
+								@method('DELETE')
+								@csrf
+								<input style="display:none;" type="submit" class="btn btn-danger">
+
+							</form></td>
 					</tr>
 					@endforeach
 				</tbody>
@@ -63,7 +70,13 @@
 @section('additional_js')
 <script type="text/javascript" src={{asset("js/roles.js")}}></script>
 <script type="text/javascript">
-	delete_btn('{{route('roles.destroy')}}');
+	$(".delete_single").click(function(event){
+		event.preventDefault();
+		yes_del=confirm("Do you want to delete?");
+		if(yes_del==1){
+			$("#delete"+this.id).submit();
+		}});
+	delete_btn('{{route('roles.destroy_all')}}');
 
 
   $(".breadcrumb").append('<li class="active"><a href="{{route('roles.index')}}">Roles</a></li>');

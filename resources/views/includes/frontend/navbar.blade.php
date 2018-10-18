@@ -6,17 +6,11 @@
 						<div class="contactinfo">
 							<ul class="nav nav-pills">
 								
-								
-								<li><a href="#">
-								@if($configuration->has('contact'))
-								<i class="fa fa-phone"></i> 
-									{{$configuration['contact']}}
-								@endif
-							</a></li>
-								<li><a href="#"><i class="fa fa-envelope"></i> 
-								@if($configuration->has('email'))
-									{{$configuration['email']}}
-								@endif</a></li>
+								@foreach($configurations as $conf_key=>$conf_value)
+									<li><a href="#"><i class="fa fa-phone"></i> 
+										{{$conf_key}}:{{$conf_value}}
+									</a></li>
+								@endforeach
 							</ul>
 						</div>
 					</div>
@@ -88,15 +82,23 @@
 						<div class="mainmenu pull-left">
 							<ul class="nav navbar-nav collapse navbar-collapse">
 								<li><a href="index.html" class="active">Home</a></li>
-								<li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
-                                    <ul role="menu" class="sub-menu">
-                                        <li><a href="shop.html">Products</a></li>
-										<li><a href="product-details.html">Product Details</a></li> 
-										<li><a href="checkout.html">Checkout</a></li> 
-										<li><a href="cart.html">Cart</a></li> 
-										<li><a href="login.html">Login</a></li> 
-                                    </ul>
-                                </li> 
+								@foreach($categories as $category)
+								<li class="dropdown"><a href="#" class='category_parent_{{$category->id}}'>{{$category->name}}<i class="fa fa-angle-down"></i></a>
+									<!-- @if($category->child_category())
+	                                    <ul role="menu" class="sub-menu">
+	                                    	@foreach($category->child_category as $child_category)
+		                                        <li><a href="shop.html">{{$child_category->name}}</a></li>
+
+		                                        <li><a href="shop.html">Products</a></li>
+												<li><a href="product-details.html">Product Details</a></li> 
+												<li><a href="checkout.html">Checkout</a></li> 
+												<li><a href="cart.html">Cart</a></li> 
+												<li><a href="login.html">Login</a></li>
+											@endforeach
+	                                    </ul>
+	                                @endif -->
+                                </li>
+                                @endforeach
 								<li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
                                         <li><a href="blog.html">Blog List</a></li>

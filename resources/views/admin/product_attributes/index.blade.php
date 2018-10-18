@@ -74,7 +74,14 @@
 
 @section('additional_js')
 <script type="text/javascript" src={{asset("js/roles.js")}}></script>
+
 <script type="text/javascript">
+	$(".delete_single").click(function(event){
+		event.preventDefault();
+		yes_del=confirm("Do you want to delete?");
+		if(yes_del==1){
+			$("#delete"+this.id).submit();
+		}});
 	delete_btn('{{route('product_attributes.destroy_all')}}');
 	//update_status('{{route('configurations.update_status')}}');
 	$(".breadcrumb").append('<li class="active"><a href="{{route('product_attributes.index')}}">Product Attributes</a></li>');

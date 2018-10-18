@@ -47,7 +47,7 @@
                     <td>{{$banner->content}}</td>
                     <td><img src="{{asset('storage/banners/'.$banner->image)}}" height=50 width=50></td>
               
-                    <td class="status">
+                    <td class="status" style="cursor:pointer ;">
                       @if($banner->status==1)
                         <a class="status-1-{{$banner->id}}">Enabled</a>
                         <a class="status-0-{{$banner->id}}" hidden>Disabled</a>
@@ -56,7 +56,14 @@
                         <a class="status-0-{{$banner->id}}">Disabled</a>
                       @endif
                     </td>
-                    <td><a id='banner.{{$banner->id}}' href={{route('banners.edit',['banner'=>$banner->id])}} class="btn btn-primary glyphicon glyphicon-pencil" ></a></td>
+                    <td><a id='banner.{{$banner->id}}' href={{route('banners.edit',['banner'=>$banner->id])}} class="btn btn-primary glyphicon glyphicon-pencil" ></a>
+                    <i class="delete_single btn btn-danger glyphicon glyphicon-trash" id={{$banner->id}}></i></a>
+                    <form id='delete{{$banner->id}}' method="POST" action="{{route('banners.destroy',['banner'=>$banner->id])}}">
+                      @method('DELETE')
+                      @csrf
+                    <input style="display:none;" type="submit" class="btn btn-danger">
+
+                    </form></td>
                   </tr>
                   @endforeach
               
@@ -82,7 +89,13 @@
 @section('additional_js')
 <script type="text/javascript" src={{asset("js/roles.js")}}></script>
 <script type="text/javascript">
-  delete_btn('{{route('banners.destroy')}}');
+  $(".delete_single").click(function(event){
+    event.preventDefault();
+    yes_del=confirm("Do you want to delete?");
+    if(yes_del==1){
+      $("#delete"+this.id).submit();
+    }});
+  delete_btn('{{route('banners.destroy_all')}}');
   update_status('{{route('banners.update_status')}}');
   $(".breadcrumb").append('<li class="active"><a href="{{route('banners.index')}}">Banners</a></li>');
 </script>

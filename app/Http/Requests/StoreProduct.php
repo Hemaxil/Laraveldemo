@@ -30,14 +30,12 @@ class StoreProduct extends FormRequest
             'long_description'=>'string|nullable',
             'price'=>'regex:/^\d*.?\d{1,2}$/|nullable',
             'special_price'=>'regex:/^\d*.?\d{1,2}$/|nullable|lt:price',
-            'special_price_from'=>'date|nullable',
-            'special_price_to'=>'date|nullable',
             'meta_title'=>'required|max:45',
             'meta_description'=>'string|nullable',
             'meta_keywords'=>'string|nullable',
             'quantity'=>'integer|nullable',
-            'special_price_from'=>'date|date_format:Y-m-d',
-            'special_price_to'=>'date|date_format:Y-m-d|after:special_price_from'
+            'special_price_from'=>'date|date_format:Y-m-d|nullable',
+            'special_price_to'=>'date|date_format:Y-m-d|after:special_price_from|nullable'
         ];
     }
 }

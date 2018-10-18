@@ -57,7 +57,14 @@
 								<a class="status-0-{{$configuration->id}}">Disabled</a>
 							@endif
 						</td>
-						<td><a id='configuration.{{$configuration->id}}' href={{route('configurations.edit',['configuration'=>$configuration->id])}} class="btn btn-primary glyphicon glyphicon-pencil" ></a></td>
+						<td><a id='configuration.{{$configuration->id}}' href={{route('configurations.edit',['configuration'=>$configuration->id])}} class="btn btn-primary glyphicon glyphicon-pencil" ></a>
+						<a><i class="delete_single btn btn-danger glyphicon glyphicon-trash" id={{$configuration->id}}></i></a>
+							<form id='delete{{$configuration->id}}' method="POST" action="{{route('configurations.destroy',['configuration'=>$configuration->id])}}">
+								@method('DELETE')
+								@csrf
+								<input style="display:none;" type="submit" class="btn btn-danger">
+
+							</form></td>
 					</tr>
 					@endforeach
 							
@@ -82,7 +89,13 @@
 @section('additional_js')
 <script type="text/javascript" src={{asset("js/roles.js")}}></script>
 <script type="text/javascript">
-	delete_btn('{{route('configurations.destroy')}}');
+	$(".delete_single").click(function(event){
+		event.preventDefault();
+		yes_del=confirm("Do you want to delete?");
+		if(yes_del==1){
+			$("#delete"+this.id).submit();
+		}});
+	delete_btn('{{route('configurations.destroy_all')}}');
 	update_status('{{route('configurations.update_status')}}');
 	$(".breadcrumb").append('<li class="active"><a href="{{route('configurations.index')}}">Configurations</a></li>');
 </script>

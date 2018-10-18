@@ -18,26 +18,26 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/','GuestUserController@index')->name('guest_home');
 Route::get('user/login','Auth\LoginController@showUserLoginForm')->name('user.login');
-Route::group(['middleware' => ['role:superadmin'],'prefix'=>'admin'], function () {
-    Route::resource('roles','RoleController')->except(['destroy']);
-	Route::delete('roles/delete','RoleController@delete')->name('roles.destroy');
-	Route::resource('users','UserController')->except(['destroy']);
-    Route::delete('users/delete','UserController@delete')->name('users.destroy');
+Route::group(['middleware' => ['role:1'],'prefix'=>'admin'], function () {
+    Route::resource('roles','RoleController');
+	Route::delete('roles/delete','RoleController@delete')->name('roles.destroy_all');
+	Route::resource('users','UserController');
+    Route::delete('users/delete','UserController@delete')->name('users.destroy_all');
     Route::patch('users/', 'UserController@update_status')->name('users.update_status');
 });
-
-Route::group(['middleware' => ['role:admin|superadmin'],'prefix'=>'admin'], function () {
+Route::get('categorytree/','GuestUserController@printCategoryTree')->name('categorytree');
+Route::group(['middleware' => ['role:1|2'],'prefix'=>'admin'], function () {
 	Route::get('/', function () { return view('admin.index');
 	})->name('admin.home');
 
 
-    Route::resource('configurations','ConfigurationController')->except(['destroy']);
+    Route::resource('configurations','ConfigurationController');
     Route::patch('configurations/', 'ConfigurationController@update_status')->name('configurations.update_status');
-    Route::delete('configurations/delete','ConfigurationController@delete')->name('configurations.destroy');
+    Route::delete('configurations/delete','ConfigurationController@delete')->name('configurations.destroy_all');
 
 
-	Route::resource('banners','BannerController')->except(['destroy']);
-    Route::delete('banners/delete','BannerController@delete')->name('banners.destroy');
+	Route::resource('banners','BannerController');
+    Route::delete('banners/delete','BannerController@delete')->name('banners.destroy_all');
     Route::patch('banners/', 'BannerController@update_status')->name('banners.update_status');
 
     Route::get('categories/get_categories','CategoryController@get_all_categories')->name('categories.get_all');

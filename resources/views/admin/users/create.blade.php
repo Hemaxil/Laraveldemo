@@ -23,35 +23,35 @@
       <div class="box-body">
         <div class="form-group">
           {{Form::label('firstname', 'First Name',['class'=>'col-sm-2 control-label'])}}
-          <div class="col-sm-10">
+          <div class="col-sm-4">
             {{Form::text ('firstname','',['class'=>'form-control'])}}
           </div>
         </div>
 
         <div class="form-group">
           {{Form::label('lastname', 'Last Name',['class'=>'col-sm-2  control-label'])}}
-          <div class="col-sm-10">
+          <div class="col-sm-4">
             {{Form::text ('lastname','',['class'=>'form-control'])}}
           </div>
         </div>
 
         <div class="form-group">
           {{Form::label('email', 'Email Id',['class'=>'col-sm-2 control-label'])}}
-          <div class="col-sm-10">
+          <div class="col-sm-4">
             {{Form::email ('email','',['class'=>'form-control'])}}
           </div>
         </div>
 
         <div class="form-group">
           {{Form::label('password','Password',['class'=>'col-sm-2 control-label'])}}
-          <div class="col-sm-10">
+          <div class="col-sm-4">
             {{Form::password ('password',['class'=>'form-control'])}}
           </div>
         </div>
 
         <div class="form-group">
           {{Form::label('password_confirmation', 'Confirm Password',['class'=>'col-sm-2 control-label'])}}
-          <div class="col-sm-10">
+          <div class="col-sm-4">
             {{Form::password ('password_confirmation',['class'=>'form-control'])}}
           </div>
         </div>
@@ -60,7 +60,7 @@
 
         <div class="form-group">
           {{Form::label('status', 'Status',['class'=>'col-sm-2 control-label'])}}
-          <div class="col-sm-10">
+          <div class="col-sm-4">
             {{Form::select('status', ['0' => 'Disabled', '1' => 'Enabled'], '1',['class'=>'custom-select '])}}
           </div>
    
@@ -69,7 +69,7 @@
         <div class="form-group">
           {{Form::label('roles', 'Role',['class'=>'col-sm-2 control-label'])}}
           
-          	<div class="col-sm-10">
+          	<div class="col-sm-4">
 	            @foreach($roles as $role)
 	            <div>
 	              <label>{{Form::checkbox('roles[]', $role->id) }}{{$role->name}} </label>
