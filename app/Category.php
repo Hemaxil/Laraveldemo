@@ -18,6 +18,9 @@ class Category extends Model
 	}
 
 
-	
+	 public function get_products(){
+    	return $this->belongsToMany('App\Product','product_categories','category_id','product_id');
+    }
+
     
 }

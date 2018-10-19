@@ -108,11 +108,11 @@ class ProductController extends Controller
         foreach($request->images as $image){
             $path=$image->store('public/products');
             $image_name=explode('/',$path)[2];
-            $small_img = Image::make($image)->resize(200,200);
+            $small_img = Image::make($image)->resize(70,70);
             $small_img->save(storage_path('app/public/products/small/'.$image_name),80);
-            $medium_img = Image::make($image)->resize(400,400);
+            $medium_img = Image::make($image)->resize(200,200);
             $medium_img->save(storage_path('app/public/products/medium/'.$image_name),80);
-            $large_img = Image::make($image)->resize(700,700);
+            $large_img = Image::make($image)->resize(400,400);
             $large_img->save(storage_path('app/public/products/large/'.$image_name),80);
             $prod_image=Product_Image::create(['image_name'=>$image_name,'status'=>'1','product_id'=>$product->id,'created_by'=>$request->user()->id,'modified_by'=>$request->user()->id]);
             $prod_image->save();

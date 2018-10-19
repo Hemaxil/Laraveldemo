@@ -26,6 +26,8 @@
 
 <body>
 	@include('includes.frontend.navbar')
+    @yield('headerbottom')
+    
 
     @yield('content')
 

@@ -157,26 +157,49 @@
 	</footer>
 
 	<script src={{asset("eshopper/js/jquery.js")}}></script>
-    <script src={{asset("eshopper/js/bootstrap.min.js")}}></script>
-    <script src={{asset("eshopper/js/jquery.scrollUp.min.js")}}></script>
-    <script src={{asset("eshopper/js/price-range.js")}}></script>
-    <script src={{asset("eshopper/js/jquery.prettyPhoto.js")}}></script>
-    <script type="text/javascript">
-    	$(".dropdown").hover(function(){
+	 <script type="text/javascript">
+    	
+    	$("a[class*='category_parent_']").click(function(event){
+    		event.preventDefault();
     		let ab=this.className;
     		var object=$(this);
     		var id=ab.split('_')[2];
+    		console.log($(this).html());
+
     		$.ajax({
     			url:"{{route('categorytree')}}",
 				headers:{'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')},
 				data:{'id':id},
             	type: "get",
+            	dataType:'json',
     		}).done(function(result){
     			console.log(result);
-    			obj.append("<ul><li>"+result+"<li><ul>")
+    			text='<ul role="menu" class="sub-menu">';
+    			//text+="<li class='dropdown'><a class='category_parent_"+value.id+"' href='shop.html'>"+value.name+"</a></li>"
+    			$.each(result,function(index,value){
+    				var id=value.parent_id;
+    				 text+="<li class='dropdown'><a class='category_parent_"+value.id+"' href='products/"+value.id+"'>"+value.name+"</a></li>";
+    				 
+    			})
+
+    			text+="</ul>";
+    			//$(".category_parent_"+id).parent().children('ul').remove();
+    			$(".category_parent_"+id).parent().children('ul').remove();
+    			$(".category_parent_"+id).parent().append(text);
+    			//$(".category_parent_"+id).parent().children('ul').remove();
+
+    			
     		});
+
+
     	})
     </script>
+    <script src={{asset("eshopper/js/bootstrap.min.js")}}></script>
+
+    <script src={{asset("eshopper/js/jquery.scrollUp.min.js")}}></script>
+    <script src={{asset("eshopper/js/price-range.js")}}></script>
+    <script src={{asset("eshopper/js/jquery.prettyPhoto.js")}}></script>
+   
     <script src={{asset("eshopper/js/main.js")}}></script>
 
 <!--/Footer-->

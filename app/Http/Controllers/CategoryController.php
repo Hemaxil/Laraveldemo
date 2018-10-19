@@ -28,8 +28,8 @@ class CategoryController extends Controller
     public function create()
     {   
 
+        //$parent_categori=Category::whereNull('parent_id')->where('status','1')->pluck('name','id');
         $parent_categori=Category::whereNull('parent_id')->where('status','1')->pluck('name','id');
-
         //$parent_category->prepend('None',null);
         $parent_category=array_add($parent_categori,'0','None');
        

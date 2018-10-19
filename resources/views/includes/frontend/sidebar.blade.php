@@ -6,20 +6,25 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h4 class="panel-title">
-						<a data-toggle="collapse" data-parent="#accordian" href="#sportswear">
-							<span class="badge pull-right"><i class="fa fa-plus"></i></span>
-							{{$parent_category->name}}
-						</a>
+						@if(count($parent_category->child_category)>0)
+							<a data-toggle="collapse" data-parent="#accordian" href="#sportswear ">
+							<span class="badge pull-right"><i class="fa fa-plus"></i></span>{{$parent_category->name}}
+							</a>
+						@else
+							<a href="{{route('get_featured_items',['id'=>$parent_category->id])}}">{{$parent_category->name}}</a>
+						@endif
+						
 					</h4>
 				</div>
 				<div id="sportswear" class="panel-collapse collapse">
 					<div class="panel-body">
 						<ul>
-							@foreach($categories as $category)
-								@if($category->parent_id==$parent_category->id)
-									<li><a href="#">{{$category->name}} </a></li>
-								@endif
-							@endforeach
+
+							@if(count($parent_category->child_category)>0)
+								@foreach($parent_category->child_category as $child)
+									<li><a href="{{route('get_featured_items',['id'=>$child->id])}}">{{$child->name}} </a></li>
+								@endforeach
+							@endif
 						</ul>
 					</div>
 				</div>
@@ -43,8 +48,6 @@
 		</div>
 	</div><!--/price-range--> --}}
 	
-	<div class="shipping text-center"><!--shipping-->
-		<img src="eshopper/images/home/shipping.jpg" alt="" />
-	</div><!--/shipping-->
+	<!--/shipping-->
 
 </div>

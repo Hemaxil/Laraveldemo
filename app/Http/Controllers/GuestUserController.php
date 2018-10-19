@@ -10,9 +10,8 @@ class GuestUserController extends Controller
 		$this->banners='App\Banner'::where('status','1')->get();
 		$this->configuration='App\Configuration'::where('status','1')->pluck('conf_value','conf_key');
 		
-		$this->parent_categories='App\Category'::where(['status'=>'1','parent_id'=>null])->get();
-		$this->categories='App\Category'::where('parent_id','<>',null)->where('status','1')->get();
-		//dd('App\Category'::find(1)->child_category);
+		$this->parent_categories='App\Category'::with('child_category')->where(['status'=>'1','parent_id'=>null])->get();
+		
 			
 	}
 
@@ -39,5 +38,45 @@ class GuestUserController extends Controller
 	    echo ($this->getCategoryTree($request->id));
 	}
 
+	public function get_child_categories(Request $request){
+	
+		$parent='App\Category'::where('id',$request->id);
+		$child='App\Category'::where('parent_id',$request->id)->union($parent)->get();
+		if(count('App\Category'::find($request->id)->child_category()->get())>0){
+			echo json_encode($child);
+		}else{
+			echo json_encode($child);
+		}
+}
+	
+	public function get_featured_items(Request $request,$id){
+	 	
+		$category='App\Category'::find($id);
+		$child=$category->child_category()->pluck('id');
+		if(count($child)>0){
+			$products='App\Category'::with('get_products.get_images')->where('id',$child)->get();
+		}else{
+			$products='App\Category'::with('get_products.get_images')->where('id',$id)->get();
+			
+		}
+
+
+		//dd(count($products->first()->get_products));
+		
+		
+		
+		return view('frontend.get_products',['configurations'=>$this->configuration,'parent_categories'=>$this->parent_categories,'categories'=>$this->parent_categories,'category_products'=>$products]);
+
+
+	}
+
+
+	public function get_product_details(Request $request,$id){
+		$product='App\Product'::with('get_categories','get_images','get_attributes')->findOrFail($id);
+
+		
+
+		return view('frontend.product_details',['configurations'=>$this->configuration,'parent_categories'=>$this->parent_categories,'categories'=>$this->parent_categories,'product'=>$product]);
+	}
     
 }

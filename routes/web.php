@@ -18,6 +18,10 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/','GuestUserController@index')->name('guest_home');
 Route::get('user/login','Auth\LoginController@showUserLoginForm')->name('user.login');
+Route::get('categorytree/','GuestUserController@get_child_categories')->name('categorytree');
+
+Route::get('products/{id}','GuestUserController@get_featured_items')->name('get_featured_items');
+Route::get('products/{id}/details','GuestUserController@get_product_details')->name('get_product_details');
 Route::group(['middleware' => ['role:1'],'prefix'=>'admin'], function () {
     Route::resource('roles','RoleController');
 	Route::delete('roles/delete','RoleController@delete')->name('roles.destroy_all');
@@ -25,7 +29,7 @@ Route::group(['middleware' => ['role:1'],'prefix'=>'admin'], function () {
     Route::delete('users/delete','UserController@delete')->name('users.destroy_all');
     Route::patch('users/', 'UserController@update_status')->name('users.update_status');
 });
-Route::get('categorytree/','GuestUserController@printCategoryTree')->name('categorytree');
+
 Route::group(['middleware' => ['role:1|2'],'prefix'=>'admin'], function () {
 	Route::get('/', function () { return view('admin.index');
 	})->name('admin.home');
@@ -36,8 +40,9 @@ Route::group(['middleware' => ['role:1|2'],'prefix'=>'admin'], function () {
     Route::delete('configurations/delete','ConfigurationController@delete')->name('configurations.destroy_all');
 
 
-	Route::resource('banners','BannerController');
+	
     Route::delete('banners/delete','BannerController@delete')->name('banners.destroy_all');
+    Route::resource('banners','BannerController');
     Route::patch('banners/', 'BannerController@update_status')->name('banners.update_status');
 
     Route::get('categories/get_categories','CategoryController@get_all_categories')->name('categories.get_all');
