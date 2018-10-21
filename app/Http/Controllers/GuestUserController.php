@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use App\Product as Product;
+use App\Category as Category;
+use App\Configuration as Configuration;
+use App\Banner as Banner;
+use App\Product_Attribute_Assoc as Product_Attribute_Assoc;
 class GuestUserController extends Controller
 { 
 	public function __construct(){
@@ -16,8 +21,11 @@ class GuestUserController extends Controller
 	}
 
     public function index(Request $request){
+
+    	$products=Product::with('get_images')->where(['future'=>'1','status'=>'1'])->get();
     	
-    	return view('index',['banners'=>$this->banners,'configurations'=>$this->configuration,'parent_categories'=>$this->parent_categories,'categories'=>$this->parent_categories]);
+    	
+    	return view('index',['banners'=>$this->banners,'configurations'=>$this->configuration,'parent_categories'=>$this->parent_categories,'categories'=>$this->parent_categories,'featured_items'=>$products]);
     }
 
 	
@@ -72,11 +80,12 @@ class GuestUserController extends Controller
 
 
 	public function get_product_details(Request $request,$id){
-		$product='App\Product'::with('get_categories','get_images','get_attributes')->findOrFail($id);
-
+		$product=Product::with('get_categories','get_images','get_attributes')->findOrFail($id);
+		$product_attributes=Product_Attribute_Assoc::with('get_attribute_name','get_attribute_value_name')->where('product_id',$id)->get();
+		
 		
 
-		return view('frontend.product_details',['configurations'=>$this->configuration,'parent_categories'=>$this->parent_categories,'categories'=>$this->parent_categories,'product'=>$product]);
+		return view('frontend.product_details',['configurations'=>$this->configuration,'parent_categories'=>$this->parent_categories,'categories'=>$this->parent_categories,'product'=>$product,'product_attributes'=>$product_attributes]);
 	}
     
 }

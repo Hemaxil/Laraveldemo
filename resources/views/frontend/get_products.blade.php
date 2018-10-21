@@ -23,20 +23,34 @@
 										<div class="product-image-wrapper">
 											<div class="single-products">
 													<div class="productinfo text-center">
-														@foreach($product->get_images as $image)
-																@if($loop->first)
-																	<img src={{asset('storage/products/medium/'.$image->image_name)}} alt="" />
-																@endif
-														@endforeach
-														<h2>{{$product->price}}</h2>
+														@if(count($product->get_images)>0)
+															@foreach($product->get_images as $image)
+																	@if($loop->first)
+																		<img src={{asset('storage/products/medium/'.$image->image_name)}} alt="" />
+																	@endif
+															@endforeach
+														@else
+														No image found
+														@endif
+														<h2><i class="fa fa-inr"></i>{{$product->price ?:0}}</h2>
 														<p>{{$product->name}}</p>
-														<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+														@if($product->quantity<=0)
+															<a class="btn btn-default add-to-cart disabled"><i class="fa fa-shopping-cart"></i><s>Add to cart</s></a>
+														@else
+															<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+														@endif
+														
 													</div>
 													<div class="product-overlay">
 														<div class="overlay-content">
-															<h2>{{$product->price}}</h2>
+															<h2><i class="fa fa-inr"></i>{{$product->price ?:0}}</h2>
 															<p>{{$product->name}}</p>
-															<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+															@if($product->quantity<=0)
+																<a class="btn btn-default add-to-cart disabled"><i class="fa fa-shopping-cart"></i><s>Add to cart</s></a>
+															@else
+																<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+															@endif
+														
 														</div>
 													</div>
 											</div>

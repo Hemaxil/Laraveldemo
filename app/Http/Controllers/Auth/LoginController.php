@@ -23,7 +23,7 @@ class LoginController extends Controller
 
    public function redirectTo(){
      
-    if(Auth::user()->hasRole('5')){
+    if(Auth::user()->hasRole('customer')){
         return '/home';
     
     }else
@@ -53,7 +53,7 @@ class LoginController extends Controller
 
        $configuration='App\Configuration'::where('status','1')->pluck('conf_value','conf_key');
         
-        return view('auth.user_login',['configuration'=>$configuration]);
+        return view('auth.user_login',['configurations'=>$configuration]);
     }
 
 }

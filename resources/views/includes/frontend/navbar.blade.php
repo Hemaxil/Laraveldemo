@@ -5,12 +5,13 @@
 					<div class="col-sm-6">
 						<div class="contactinfo">
 							<ul class="nav nav-pills">
-								
+							@if(count($configurations)>0)
 								@foreach($configurations as $conf_key=>$conf_value)
 									<li><a href="#"><i class="fa fa-phone"></i> 
 										{{$conf_key}}:{{$conf_value}}
 									</a></li>
 								@endforeach
+							@endif
 							</ul>
 						</div>
 					</div>
