@@ -7,8 +7,7 @@
             {{ session('status') }}
         </div>
     @endif
-    <div class="login-box">
-        <div class="login-box-body">
+    
             <form method="POST" action="{{ route('password.email') }}">
                 @csrf
 
@@ -29,7 +28,6 @@
                     {{ __('Send Password Reset Link') }}
                 </button>
             </form>
-        </div>
-    </div>
+    
 
 @endsection
