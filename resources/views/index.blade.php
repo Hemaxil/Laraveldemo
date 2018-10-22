@@ -75,32 +75,55 @@
 				<div class="col-sm-9 padding-right">
 					<div class="features_items"><!--features_items-->
 						<h2 class="title text-center">Features Items</h2>
-						<div class="col-sm-4">
-							<div class="product-image-wrapper">
-								<div class="single-products">
-										<div class="productinfo text-center">
-											<img src="images/home/product1.jpg" alt="" />
-											<h2>$56</h2>
-											<p>Easy Polo Black Edition</p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-										</div>
-										<div class="product-overlay">
-											<div class="overlay-content">
-												<h2>$56</h2>
-												<p>Easy Polo Black Edition</p>
-												<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+						@if(count($featured_items)>0)
+							@foreach($featured_items as $item)
+
+									<div class="col-sm-4">
+										<div class="product-image-wrapper">
+											<div class="single-products">
+													<div class="productinfo text-center">
+														@if(count($item->get_images)>0)
+														@foreach($item->get_images as $image)
+																@if($loop->first)
+																	<img src={{asset('storage/products/medium/'.$image->image_name)}} alt="" />
+																@endif
+														@endforeach
+														@endif
+														<h2><i class='fa fa-inr'></i>{{$item->price}}</h2>
+														<p>{{$item->name}}</p>
+														@if($item->quantity<=0)
+															<a class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i><s>Add to cart</s></a>
+														@else
+															<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+														@endif
+
+													</div>
+													<div class="product-overlay">
+														<div class="overlay-content">
+															<h2><i class="fa fa-inr"></i>{{$item->price}}</h2>
+															<p>{{$item->name}}</p>
+															@if($item->quantity<=0)
+																<a class="btn btn-default add-to-cart disabled"><i class="fa fa-shopping-cart"></i><s>Add to cart</s></a>
+															@else
+																<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+															@endif
+														</div>
+													</div>
+											</div>
+											<div class="choose">
+												<ul class="nav nav-pills nav-justified">
+													<li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
+													<li><a href="{{route('get_product_details',$item->id)}}"><i class="fa fa-plus-square"></i>View Details</a></li>
+												</ul>
 											</div>
 										</div>
-								</div>
-								<div class="choose">
-									<ul class="nav nav-pills nav-justified">
-										<li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
-										<li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						
+									</div>
+								
+								
+							@endforeach
+						@else
+						<p> No Featured Products Found !!!</p>
+						@endif
 						
 					</div><!--features_items-->
 					
