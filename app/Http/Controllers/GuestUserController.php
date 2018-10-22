@@ -72,9 +72,9 @@ class GuestUserController extends Controller
 
 
 	public function get_product_details(Request $request,$id){
-		$product='App\Product'::with('get_categories','get_images','get_attributes')->findOrFail($id);
+		$product='App\Product'::with('get_categories','get_images','get_attributes.get_attribute_name','get_attributes.get_attribute_name.get_attribute_value')->findOrFail($id);
 
-		
+		dd($product);
 
 		return view('frontend.product_details',['configurations'=>$this->configuration,'parent_categories'=>$this->parent_categories,'categories'=>$this->parent_categories,'product'=>$product]);
 	}

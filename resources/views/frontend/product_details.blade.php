@@ -31,7 +31,10 @@
 							@endif
 
 							<div>
-								if(count($product->get_attributes)>0)
+								@if(count($product->get_attributes)>0)
+									@foreach($product->get_attributes as $attribute)
+									@endforeach
+								@endif
 							</div>
 						</div>
 					</div>
