@@ -7,7 +7,7 @@
 				<div class="panel-heading">
 					<h4 class="panel-title">
 						@if(count($parent_category->child_category)>0)
-							<a data-toggle="collapse" data-parent="#accordian" href="#sportswear ">
+							<a data-toggle="collapse" data-parent="#accordian" href="#{{$parent_category->name}} ">
 							<span class="badge pull-right"><i class="fa fa-plus"></i></span>{{$parent_category->name}}
 							</a>
 						@else
@@ -16,7 +16,7 @@
 						
 					</h4>
 				</div>
-				<div id="sportswear" class="panel-collapse collapse">
+				<div id="{{$parent_category->name}}" class="panel-collapse collapse">
 					<div class="panel-body">
 						<ul>
 

@@ -94,7 +94,12 @@
 														@if($item->quantity<=0)
 															<a class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i><s>Add to cart</s></a>
 														@else
-															<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+															{{Form::open(['route'=>['accounts.addToCart',$item->id],'id'=>'addtocart'])}}
+											
+															<input type="text" id="quantity" name="quantity" value=1 hidden/>
+															<input type="submit" class="btn btn-default cart hidden"><a href="#" class="addtocart_button btn btn-default cart"><i class="fa fa-shopping-cart "></i>
+															Add to cart</a>
+														{{Form::close()}}
 														@endif
 
 													</div>
@@ -105,7 +110,12 @@
 															@if($item->quantity<=0)
 																<a class="btn btn-default add-to-cart disabled"><i class="fa fa-shopping-cart"></i><s>Add to cart</s></a>
 															@else
-																<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+																{{Form::open(['route'=>['accounts.addToCart',$item->id],'id'=>'addtocart'])}}
+											
+															<input type="text" id="quantity" name="quantity" value=1 hidden/>
+															<input type="submit" class="btn btn-default cart hidden"><a href="#" class="addtocart_button btn btn-default cart"><i class="fa fa-shopping-cart "></i>
+															Add to cart</a>
+														{{Form::close()}}
 															@endif
 														</div>
 													</div>
@@ -520,6 +530,14 @@
 
 @endsection
 @section('additional_js')
+<script type="text/javascript">
+	$(".addtocart_button").click(function(event){
 
+		event.preventDefault();
+		$(this).parent('#addtocart').submit();
+		//$("#addtocart").submit();
+
+	})
+</script>
 @endsection
 	

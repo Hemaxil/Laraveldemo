@@ -14,7 +14,7 @@
 				
 				<div class="col-sm-9 padding-right">
 					<div class="features_items"><!--features_items-->
-						<h2 class="title text-center">Features Items</h2>
+						<h2 class="title text-center">Features Items({{count($category_products)}})</h2>
 						
 						@foreach($category_products as $category_product)
 							@if(count($category_product->get_products)>0)
@@ -37,7 +37,12 @@
 														@if($product->quantity<=0)
 															<a class="btn btn-default add-to-cart disabled"><i class="fa fa-shopping-cart"></i><s>Add to cart</s></a>
 														@else
-															<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+														{{Form::open(['route'=>['accounts.addToCart',$product->id],'id'=>'addtocart'])}}
+											
+															<input type="text" id="quantity" name="quantity" value=1 hidden/>
+															<input type="submit" class="btn btn-default cart hidden"><a href="#" class="addtocart_button btn btn-default cart"><i class="fa fa-shopping-cart "></i>
+															Add to cart</a>
+														{{Form::close()}}
 														@endif
 														
 													</div>
@@ -48,7 +53,12 @@
 															@if($product->quantity<=0)
 																<a class="btn btn-default add-to-cart disabled"><i class="fa fa-shopping-cart"></i><s>Add to cart</s></a>
 															@else
-																<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+																{{Form::open(['route'=>['accounts.addToCart',$product->id],'id'=>'addtocart'])}}
+											
+															<input type="text" id="quantity" name="quantity" value=1 hidden/>
+															<input type="submit" class="btn btn-default cart hidden"><a href="#" class="addtocart_button btn btn-default cart"><i class="fa fa-shopping-cart "></i>
+															Add to cart</a>
+														{{Form::close()}}
 															@endif
 														
 														</div>
@@ -466,6 +476,14 @@
 
 @endsection
 @section('additional_js')
+<script type="text/javascript">
+	$(".addtocart_button").click(function(event){
 
+		event.preventDefault();
+		$(this).parent('#addtocart').submit();
+		//$("#addtocart").submit();
+
+	})
+</script>
 @endsection
 	

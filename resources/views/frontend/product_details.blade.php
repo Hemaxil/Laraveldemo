@@ -2,6 +2,16 @@
 
 @section('content')
 <section>
+	@if (count($errors) > 0)
+		<div class="alert alert-danger">
+	{{-- 	<strong>Whoops!</strong> There were some problems with your input.<br><br> --}}
+		<ul>
+				@foreach ($errors->all() as $error)
+ 				<li>{{ $error }}</li>
+				@endforeach
+		</ul>
+		</div>
+	@endif
 	<div class="container">
 			<div class="row">
 				<div class="col-sm-3">
@@ -24,15 +34,15 @@
 								  <!-- Wrapper for slides -->
 								    
 										
-										<div class="item">
-											@if(count($product->get_images)>0)
-											<span>
-												@foreach($product->get_images as $image)
-												<img class="product_image" src={{asset('storage/products/small/'.$image->image_name)}}>
-												@endforeach
-											</span>
-											@endif
-										</div>
+								<div class="item">
+									@if(count($product->get_images)>0)
+									<span>
+										@foreach($product->get_images as $image)
+										<img class="product_image" src={{asset('storage/products/small/'.$image->image_name)}} width="70px" height="70px">
+										@endforeach
+									</span>
+									@endif
+								</div>
 										
 									
 							</div>
@@ -48,52 +58,47 @@
 						</div>
 						<div class="col-sm-7">
 							<div class="product-information"><!--/product-information-->
-								<img src="images/product-details/new.jpg" class="newarrival" alt="" />
+								{{-- <img src="images/product-details/new.jpg" class="newarrival" alt="" /> --}}
 								<h2>{{$product->name}}</h2>
 								<p>SKU: {{$product->sku}} </p>
-								<img src="images/product-details/rating.png" alt="" />
+								{{-- <img src="images/product-details/rating.png" alt="" /> --}}
 								<span>
 									<span><i class="fa fa-inr"></i>{{$product->price ?:0}}</span>
 									@if($product->quantity>0)
 										@auth
-											<label>Quantity:</label>
+										{{Form::open(['route'=>['accounts.addToCart',$product->id],'id'=>'addtocart'])}}
+										<span>
+											<label style="font-size:0.5em;">Quantity:</label>
 											<input type="text" id="quantity" name="quantity"/>
-											<button type="button" class="btn btn-fefault cart">
-												<i class="fa fa-shopping-cart"></i>
-												Add to cart
-											</button>
+											<input type="submit" class="btn btn-default cart hidden"><a href="#" class="addtocart_button btn btn-default cart"><i class="fa fa-shopping-cart "></i>
+												Add to cart</a>
+										</span>
+										{{Form::close()}}
+												
 										@endauth
 									@endif
 								</span>
 								<p><b>Availability:</b> @if($product->quantity<=0) Out Of Stock @else In Stock @endif</p>
 								
 								<!-- sharing on social media -->
-							</div><!--/product-information-->
-						</div>
-					</div><!--/product-details-->
-				</div>
-					<div class="category-tab shop-details-tab"><!--category-tab-->
-						<div class="col-sm-12">
-							<ul class="nav nav-tabs">
-								<li><a href="#details" data-toggle="tab">Details</a></li>
-								
-							</ul>
-						</div>
-						<div >
-							<div  >
+							</div>
+							<div>
 								<p>{{$product->long_description}}</p>
 								<div>
 									Attributes
 									@if(count($product->get_attributes)>0)
 										@foreach($product_attributes as $attributes)
-											{{$attributes->get_attribute_name->name}}:-{{$attributes->get_attribute_value_name->attribute_value}}
+											<p>{{$attributes->get_attribute_name->name}}:-{{$attributes->get_attribute_value_name->attribute_value}}</p>
 										@endforeach
 									@endif
 
 
 								</div>
 						</div>
-					</div><!--/category-tab-->
+							<!--/product-information-->
+						</div>
+					</div><!--/product-details-->
+				</div>
 					
 
 				
@@ -113,6 +118,12 @@
 		$image_name=$url.slice(-1)[0];
 		$("#product-image").attr('src','/storage/products/medium/'+$image_name);
 
+
+	})
+
+	$(".addtocart_button").click(function(event){
+		event.preventDefault();
+		$("#addtocart").submit();
 
 	})
 </script>
