@@ -62,8 +62,17 @@
 								<h2>{{$product->name}}</h2>
 								<p>SKU: {{$product->sku}} </p>
 								{{-- <img src="images/product-details/rating.png" alt="" /> --}}
+								<p>
+									@if($original_price!=0)
+									<p class="cart" style="display:inline;">Special Offer!!</p>
+									<p class="strikethrough"><i class="fa fa-inr">{{$original_price}}</i></p>
+									@endif
+								
+								</p>
 								<span>
-									<span><i class="fa fa-inr"></i>{{$product->price ?:0}}</span>
+									
+									<span><i class="fa fa-inr"></i>
+										{{$product->price ?:0}}</span>
 									@if($product->quantity>0)
 										@auth
 										{{Form::open(['route'=>['accounts.addToCart',$product->id],'id'=>'addtocart'])}}

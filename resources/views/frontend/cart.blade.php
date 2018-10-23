@@ -66,7 +66,7 @@
 							<td class="cart_delete">
 								<a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
 								{{Form::open(['route'=>['accounts.delete'],'id'=>'cart_delete','method'=>'Delete'])}}
-								<input type="hidden" value={{$item->rowId}} name="rowId">
+									<input type="hidden" value={{$item->rowId}} name="rowId">
 									<input type="submit" hidden> 
 
 								{{Form::close()}}
@@ -89,52 +89,15 @@
 			<div class="row">
 				<div class="col-sm-6">
 					<div class="chose_area">
-						<ul class="user_option">
-							<li>
-								{{Form::open(['route'=>'accounts.get_discount','method'=>'POST'])}}
-								<label>Coupon Code</label>
-								<input type="text" name="coupon">
-								<input type="submit" value="Get Discount" class="btn btn-default cart">
-								{{Form::close()}}
-							</li>
-							
-						</ul>
-						{{-- <ul class="user_info">
-							<li class="single_field">
-								<label>Country:</label>
-								<select>
-									<option>United States</option>
-									<option>Bangladesh</option>
-									<option>UK</option>
-									<option>India</option>
-									<option>Pakistan</option>
-									<option>Ucrane</option>
-									<option>Canada</option>
-									<option>Dubai</option>
-								</select>
 								
-							</li>
-							<li class="single_field">
-								<label>Region / State:</label>
-								<select>
-									<option>Select</option>
-									<option>Dhaka</option>
-									<option>London</option>
-									<option>Dillih</option>
-									<option>Lahore</option>
-									<option>Alaska</option>
-									<option>Canada</option>
-									<option>Dubai</option>
-								</select>
+						{{Form::open(['route'=>'accounts.get_discount','method'=>'POST','id'=>'coupon_apply'])}}
+						<label>Coupon Code</label>
+						<input type="text" name="coupon">
+						<input type="submit" hidden>
+						<a class="apply_coupon btn btn-default cart" href="">Get Discount</a>
+						{{Form::close()}}
+						
 							
-							</li>
-							<li class="single_field zip-field">
-								<label>Zip Code:</label>
-								<input type="text">
-							</li>
-						</ul> --}}
-						{{-- <a class="btn btn-default update" href="">Get Quotes</a>
-						<a class="btn btn-default check_out" href="">Continue</a> --}}
 					</div>
 				</div>
 				<div class="col-sm-6">
@@ -144,10 +107,16 @@
 							<li id="tax">Tax <span>{{Cart::tax()}}</span></li>
 							<li id="shipping_cost">Shipping Cost <span>Free</span></li>
 							<li id="coupon_discount">Coupons Discount<span>{{session()->has('discount')&&Cart::count()>0 ?session()->get('discount'):0}}</span>
-							<li id="cart_total">Total <span>{{session()->has('discount')&&Cart::count()>0? (int)str_replace(',', '', Cart::total())-session()->get('discount'):(int)str_replace(',', '', Cart::total())}}</span></li>
+							<li id="cart_total">Total <span>@if(session()->has('discount')&&Cart::count()>0)
+									{{(int)str_replace(',', '', Cart::total())-session()->get('discount')}}
+
+								@else
+									{{(int)str_replace(',', '', Cart::total())}}
+									
+								@endif</span></li>
 						</ul>
 							<a class="btn btn-default update" href="">Update</a>
-							<a class="btn btn-default check_out" href="">Check Out</a>
+							<a class="btn btn-default check_out {{(Cart::count()<=0)?'disabled':''}}" href="{{route('accounts.get_checkout')}}">Check Out</a>
 					</div>
 				</div>
 			</div>
@@ -162,25 +131,36 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	$(".cart_quantity_up").click(function(event){
-
 		event.preventDefault();
 		$value=parseInt($(this).parent().children(".cart_quantity_input").val())+1;
 		$(this).parent().children(".cart_quantity_input").attr('value',$value);
 		$productId=$(this).parent().attr('id');
 		$rowId=$(this).parent().parent().parent('tr').attr('id');
+
 		$.ajax({
 				url:'{{route("accounts.update_cart")}}',
 				headers:{'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')},
 				data:{'rowId':$rowId,'qty':$value,'productId':$productId},
-            	type: "post",
+	        	type: "post",
+	        	dataType:'json',
 			}).done(function(result){
-				if(result==false){
-					alert('Sorry we do not have sufficient units');
+				
+				$rowobject=$("#"+result[0].rowId+" .cart_quantity .cart_quantity_input");
+				if(result[0].qty<$rowobject.val()){
+					alert("Exceeded limit!!");
+					$rowobject.attr('value',result[0].qty);
 				}
-			$("#"+result.rowId+" .cart_total_price").html(result.subtotal);
-			$(".product_total span").append("{{Cart::subtotal()}}");
-			});
+				$("#"+result[0].rowId+" .cart_total_price").html(result[2]);
+				console.log(result[0].subtotal)
+				$("#product_total span").html(result[2]);
+				$("#tax span").html((result[3]).toFixed(2));
+				$("#coupon_discount span").html((result[1]).toFixed(2));
+					$("#cart_total span").html(parseInt(result[2])+parseInt(result[3])-parseInt(result[1]));
 
+			
+				
+			});
+		
 	});
 	$(".cart_quantity_down").click(function(event){
 
@@ -195,16 +175,16 @@ $(document).ready(function(){
 				headers:{'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')},
 				data:{'rowId':$rowId,'qty':$value,'productId':$productId},
             	type: "post",
+            	dataType:'json',
 			}).done(function(result){
+				console.log(result[0].rowId);
 
-				if(result==false){
-
-					alert('Sorry we do not have sufficient units');
-				}
-
-			$("#"+result.rowId+" .cart_total_price").html(result.subtotal);
-
-			$(".product_total span").html("<php echo(Cart::total());?>");
+				$("#"+result[0].rowId+" .cart_total_price").html(result[2]);
+				console.log($("#"+result[0].rowId+" .cart_total_price").html())
+				$("#product_total span").html(result[2]);
+				$("#tax span").html((result[3]).toFixed(2));
+				$("#coupon_discount span").html((result[1]).toFixed(2));
+				$("#cart_total span").html(parseInt(result[2])+parseInt(result[3])-parseInt(result[1]));
 		
 			});
 			
@@ -217,6 +197,11 @@ $(document).ready(function(){
 		event.preventDefault();
 		$(this).parent().children("#cart_delete").submit();
 	});
+
+	$(".apply_coupon").click(function (event){
+		event.preventDefault();
+		$(this).parent("#coupon_apply").submit();
+	})
 	
 });
 //$("#cart_total span").html(parseInt($("#product_total span").html())+parseInt($("#tax span").html()));

@@ -19,10 +19,12 @@
 				<div id="{{$parent_category->name}}" class="panel-collapse collapse">
 					<div class="panel-body">
 						<ul>
-
+							<li><a href="{{route('get_featured_items',['id'=>$parent_category->id])}}">{{$parent_category->name}} </a</li>
 							@if(count($parent_category->child_category)>0)
 								@foreach($parent_category->child_category as $child)
-									<li><a href="{{route('get_featured_items',['id'=>$child->id])}}">{{$child->name}} </a></li>
+									@if($child->status =='1')
+										<li><a href="{{route('get_featured_items',['id'=>$child->id])}}">{{$child->name}} </a></li>
+									@endif
 								@endforeach
 							@endif
 						</ul>

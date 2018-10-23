@@ -32,6 +32,9 @@ Route::group(['middleware'=>'auth'],function(){
     Route::post('/home/mycart/update','HomeController@updateCart')->name('accounts.update_cart');
     Route::delete('/home/mycart','HomeController@deleteCart')->name('accounts.delete');
     Route::post('/home/mycart/get_discount','HomeController@getDiscount')->name('accounts.get_discount');
+    Route::get('/home/checkout','HomeController@checkoutView')->name('accounts.get_checkout');
+    Route::post('/home/checkout','HomeController@saveCheckoutData')->name('accounts.save_checkout');
+
 
 });
 Route::group(['middleware' => ['role:1'],'prefix'=>'admin'], function () {

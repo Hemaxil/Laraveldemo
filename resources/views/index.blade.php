@@ -77,7 +77,6 @@
 						<h2 class="title text-center">Features Items</h2>
 						@if(count($featured_items)>0)
 							@foreach($featured_items as $item)
-
 									<div class="col-sm-4">
 										<div class="product-image-wrapper">
 											<div class="single-products">
@@ -89,7 +88,20 @@
 																@endif
 														@endforeach
 														@endif
-														<h2><i class='fa fa-inr'></i>{{$item->price}}</h2>
+														@if($item->special_price_from && $item->special_price_to)
+			
+															@if(date('Y-m-d')<=$item->special_price_to && date('Y-m-d')>=$item->special_price_from)
+																	<h2><i class='fa fa-inr'></i>{{$item->special_price}}</h2>
+															@endif
+														@else
+															<h2><i class='fa fa-inr'></i>{{$item->price}}</h2>
+
+
+														@endif
+				
+
+		
+														
 														<p>{{$item->name}}</p>
 														@if($item->quantity<=0)
 															<a class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i><s>Add to cart</s></a>
@@ -105,7 +117,16 @@
 													</div>
 													<div class="product-overlay">
 														<div class="overlay-content">
-															<h2><i class="fa fa-inr"></i>{{$item->price}}</h2>
+															@if($item->special_price_from && $item->special_price_to)
+			
+															@if(date('Y-m-d')<=$item->special_price_to && date('Y-m-d')>=$item->special_price_from)
+																	<h2><i class='fa fa-inr'></i>{{$item->special_price}}</h2>
+															@endif
+														@else
+															<h2><i class='fa fa-inr'></i>{{$item->price}}</h2>
+
+
+														@endif
 															<p>{{$item->name}}</p>
 															@if($item->quantity<=0)
 																<a class="btn btn-default add-to-cart disabled"><i class="fa fa-shopping-cart"></i><s>Add to cart</s></a>

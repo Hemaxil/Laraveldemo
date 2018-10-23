@@ -40,7 +40,7 @@ class HomeController extends Controller
       public function index(Request $request){
 
         $products=Product::with('get_images')->where(['future'=>'1','status'=>'1'])->get();
-        
+       
         
         return view('index',['banners'=>$this->banners,'configurations'=>$this->configuration,'parent_categories'=>$this->parent_categories,'categories'=>$this->parent_categories,'featured_items'=>$products]);
     }
@@ -72,7 +72,7 @@ class HomeController extends Controller
         $user_address->save();
 
 
-        return redirect()->route('accounts.details',$request->user()->id);
+        return back();
 
     }
 
@@ -87,7 +87,14 @@ class HomeController extends Controller
       if($request->quantity>$product->quantity ){
         return back()->withInput($request->input())->withErrors('Only '.$product->quantity.'units are available');
       }
+      if($product->special_price_from && $product->special_price_to){
+        $date=date('Y-m-d');
+        if($date<=$product->special_price_to && $date>=$product->special_price_from){
+    
+          $product->price=$product->special_price;
 
+      }
+    }
       Cart::add(['id'=>$product->id,'name'=>$product->name,'qty'=>$request->quantity,'price'=>$product->price,'options'=>['image'=>$product->get_images->first()->image_name]]);
 
       return back();
@@ -111,18 +118,33 @@ class HomeController extends Controller
       return back()->withInput($request->input())->withErrors('Min unit needs to be 1');
     }
       if($request->qty<=$product->quantity){
-      $item=Cart::update($request->rowId,['qty'=>$request->qty]);
-      return $item;
-    }
-
-    echo false;
+        $item=Cart::update($request->rowId,['qty'=>$request->qty]);
+        if(session()->has('percent_off')){
+           $discount=(session()->get('percent_off'))*0.01*(Cart::subtotal());
+            session(['discount'=>round($discount,2)]);
+        }
+        session(['cart_total'=>round(Cart::total()-$discount,2)]);
+        echo json_encode([$item,session()->get('discount'),Cart::subtotal(),Cart::tax()]);
+      }
+      else{
+            if(session()->has('percent_off')){
+               $discount=(session()->get('percent_off'))*0.01*(Cart::subtotal());
+               session(['discount'=>round($discount,2)]);
+                session(['cart_total'=>round(Cart::total()-$discount,2)]);
+        }
+            echo json_encode([Cart::get($request->rowId),session()->get('discount'),Cart::subtotal(),Cart::tax()]);
+      }
+   
+    
       
   }
 
 
   public function deleteCart(Request $request){
     Cart::remove($request->rowId);
-
+    if(Cart::count()==0){
+      session(['discount'=>0]);
+    }
     return redirect()->route('accounts.get_cart');
 
   }
@@ -134,18 +156,42 @@ class HomeController extends Controller
     $coupon=Coupon::where('code',$request->coupon)->first();
     if(count($coupon)==0){
     return back()->withErrors('No such coupon code found');
-  }
+    }
 
     if($coupon->no_of_uses<=0){
     return back()->withErrors('Coupon code is not available now!');
+    }
+
+    $discount=($coupon->percent_off)*0.01*(Cart::subtotal());
+    session(['coupon_id'=>$coupon->id]);
+    session(['percent_off'=>$coupon->percent_off]);
+    session(['discount'=>$discount]);
+    session(['cart_total'=>(Cart::total()-$discount)]);
+    return back();
+ }
+
+
+  public function checkoutView(Request $request){
+    $user_addresses=UserAddress::where('user_id',$request->user()->id)->get();
+    return view('frontend.checkout',['configurations'=>$this->configuration,'addresses'=>$user_addresses]);
   }
 
-    if(session()->has('discount')){
-    return back()->withErrors("Only one discount is applicable on one order");
+  public function saveCheckoutData(Request $request){
+      if($request->delivery_address){
+      session(['delivery_address'=>$request->delivery_address]);
+    }
+
+    if($request->billing_address){
+      session(['billing_address'=>$request->billing_address]);
+    }
+
+    if($request->payment){
+      $payment=($request->payment=="cod")?'1':'2';
+      session(['payment'=>$payment]);
+    }
+
+
   }
-    $discount=($coupon->percent_off)*0.01*(Cart::subtotal());
-   session(['discount'=>$discount]);
-   return back();
-  }
+
     
 }
