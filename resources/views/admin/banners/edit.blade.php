@@ -18,7 +18,7 @@
     </div>
             <!-- /.box-header -->
             <!-- form start -->
-    {!! Form::model($banner,['method'=>'PUT','route' => ['banners.update',$banner->id],'class'=>'form-horizontal','enctype'=>'multipart/form-data']) !!}
+    {!! Form::model($banner,['method'=>'PUT','route' => ['banners.update',$banner->id],'class'=>'form-horizontal','enctype'=>'multipart/form-data','id'=>'banner_form']) !!}
    
       <div class="box-body">
         <div class="form-group">
@@ -60,5 +60,5 @@
 <script type="text/javascript">
   $(".breadcrumb").append('<li class="active"><a href="{{route('users.index')}}">Banners</a></li>');
 </script>
-  
+  <script type="text/javascript" src="{{asset('js/admin_banners.js')}}"></script>
 @endsection

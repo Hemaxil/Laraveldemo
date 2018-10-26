@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Product_attribute as Product_attribute;
-
+use Session;
 class Product_Attribute_Controller extends Controller
 {
     /**
@@ -32,7 +32,7 @@ class Product_Attribute_Controller extends Controller
         $request->validate(['name'=>'required|alpha_num']);
         $attribute=Product_attribute::create(['name'=>$request->name,'created_by'=>$request->user()->id,'modified_by'=>$request->user()->id]);
         $attribute->save();
-
+        Session::flash('success','New Attribute created!!');
         return redirect()->route('product_attributes.index');
     }
 
@@ -49,6 +49,7 @@ class Product_Attribute_Controller extends Controller
         $attribute=Product_attribute::findOrFail($id);
         $attribute->fill(['name'=>$request->name,'modified_by'=>$request->user()->id]);
         $attribute->save();
+        Session::flash('Attribute updated!!');
 
         return redirect()->route('product_attributes.index');
 
@@ -80,6 +81,7 @@ class Product_Attribute_Controller extends Controller
     {
        
         Product_attribute::destroy($id);
+        Session::flash('Attribute deleted!!');
         return redirect()->route('product_attributes.index');
     }
 }

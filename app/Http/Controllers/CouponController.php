@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Coupon as Coupon;
+use Session;
 
 class CouponController extends Controller
 {
@@ -43,7 +44,8 @@ class CouponController extends Controller
         ]);
 
         $coupon=Coupon::create(['code'=>$request->code,'percent_off'=>$request->percent_off,'no_of_uses'=>$request->no_of_uses,'created_by'=>$request->user()->id,'status'=>'0','modified_by'=>$request->user()->id]);
-        $coupon->save();
+        $coupon->save();\
+        Session::flash('success','Coupon created!!');
         return redirect()->route('coupons.index');
     }
 
@@ -87,6 +89,8 @@ class CouponController extends Controller
         $coupon=Coupon::findOrFail($id);
         $coupon->fill(['code'=>$request->code,'percent_off'=>$request->percent_off,'no_of_uses'=>$request->no_of_uses,'created_by'=>$request->user()->id,'modified_by'=>$request->user()->id]);
         $coupon->save();
+        Session::flash('success','Coupon updated!!');
+
         return redirect()->route('coupons.index');
     }
 
@@ -122,6 +126,8 @@ class CouponController extends Controller
     {
        
         Coupon::destroy($id);
+        Session::flash('success','Coupon deleted!!');
+
         return redirect()->route('coupons.index');
     }
 }

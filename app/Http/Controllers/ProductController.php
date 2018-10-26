@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Image;
+use Session;
 use App\Http\Requests\StoreProduct;
 class ProductController extends Controller
 {
@@ -119,6 +120,7 @@ class ProductController extends Controller
 
         }
        }
+       Session::flash('success','New Product created!!');
         return redirect()->route('products.index');
     }
 
@@ -187,7 +189,7 @@ class ProductController extends Controller
 
         }
        }
-
+       Session::flash('success','Product updated!!');
         return redirect()->route('products.index');
     }
 
@@ -228,6 +230,7 @@ class ProductController extends Controller
     {
        
         Product::destroy($id);
+        Session::flash('success','Product deleted!!');
         return redirect()->route('products.index');
     }
 

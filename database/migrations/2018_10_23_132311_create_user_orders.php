@@ -20,9 +20,9 @@ class CreateUserOrders extends Migration
             $table->integer('shipping_address_id')->unsigned()->nullable();
             $table->string('AWB_NO',100);
             $table->integer('payment_gateway_id');
-            $table->string('transaction_id');
-            $table->enum('status',['0','1'])->default('1');
-            $table->float('grant_total',12,2);
+            $table->string('transaction_id')->nullable();
+            $table->enum('status',['pending','processing','dispatched','delivered','cancelled'])->default('pending');
+            $table->float('grand_total',12,2);
             $table->float('shipping_charges',12,2);
             $table->integer('coupon_id')->unsigned()->nullable();
             $table->timestamps();

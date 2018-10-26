@@ -154,6 +154,8 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
         Gloudemans\Shoppingcart\ShoppingcartServiceProvider::class,
+        niklasravnsborg\LaravelPdf\PdfServiceProvider::class,
+        Srmklive\PayPal\Providers\PayPalServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -215,7 +217,8 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'Cart' => Gloudemans\Shoppingcart\Facades\Cart::class,
-
+        'PDF' => niklasravnsborg\LaravelPdf\Facades\Pdf::class,
+        'PayPal' => Srmklive\PayPal\Facades\PayPal::class,
     ],
 
 ];

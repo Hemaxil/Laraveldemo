@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Configuration as Configuration;
+use Session;
 class ConfigurationController extends Controller
 {
 
@@ -20,6 +21,7 @@ class ConfigurationController extends Controller
         $configurations='App\Configuration'::with('created_by_user','modified_by_user')->paginate(10);
 
         return view('admin.configurations.index',['page_header'=>'Configurations','page_desc'=>'Details','title'=>'Configurations','configurations'=>$configurations]);
+        
     }
 
     /**
@@ -29,6 +31,7 @@ class ConfigurationController extends Controller
      */
     public function create()
     {
+        
         return view('admin.configurations.create',['page_header'=>'Configurations','page_desc'=>'Create','title'=>'Configurations']);
     }
 
@@ -49,6 +52,7 @@ class ConfigurationController extends Controller
         $configuration='App\Configuration'::create(['conf_key'=>$request->conf_key,'conf_value'=>$request->conf_value,'created_by'=>$request->user()->id,'modified_by'=>$request->user()->id,'status'=>$request->status]);
 
         $configuration->save();
+        Session::flash('success','New Configuration created!!');
         
         return redirect()->route('configurations.index');
 
@@ -95,6 +99,8 @@ class ConfigurationController extends Controller
         $configuration=Configuration::findOrFail($id);
         $configuration->fill(['conf_key'=>$request->conf_key,'conf_value'=>$request->conf_value,'modified_by'=>$request->user()->id,'status'=>$request->status]);
         $configuration->save();
+        Session::flash('success','Configuration updated!!');
+
         return redirect()->route('configurations.index');
 
     }
@@ -132,6 +138,8 @@ class ConfigurationController extends Controller
     {
        
         Configuration::destroy($id);
+        Session::flash('success','Configuration deleted!!');
+
         return redirect()->route('configurations.index');
     }
 }

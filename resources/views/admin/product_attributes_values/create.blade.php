@@ -19,17 +19,17 @@
             <!-- /.box-header -->
             <!-- form start -->
 
-    {!! Form::open(['route' => 'product_attributes_values.store','class'=>'form-horizontal','enctype'=>"multipart/form-data"]) !!}
+    {!! Form::open(['route' => 'product_attributes_values.store','class'=>'form-horizontal','id'=>'attribute_value_form']) !!}
       <div class="box-body">
         <div class="form-group">
-          {{Form::label('attribute', 'Attribute',['class'=>'col-sm-2 control-label'])}}
+          {{Form::label('attribute', 'Attribute*',['class'=>'col-sm-2 control-label'])}}
           <div class="col-sm-4">
             {{Form::select ('attribute',$attributes,'',['class'=>'form-control'])}}
           </div>
         </div>
 
          <div class="form-group">
-          {{Form::label('attribute_value', 'Value',['class'=>'col-sm-2 control-label'])}}
+          {{Form::label('attribute_value', 'Value*',['class'=>'col-sm-2 control-label'])}}
           <div class="col-sm-4">
             {{Form::text ('attribute_value','',['class'=>' form-control'])}}
           </div>
@@ -48,5 +48,6 @@
 <script type="text/javascript">
   $(".breadcrumb").append('<li class="active"><a href="{{route('users.index')}}">Banners</a></li>');
 </script>
+<script type="text/javascript" src="{{ asset('js/admin_attribute_values.js') }}"></script>
   
 @endsection

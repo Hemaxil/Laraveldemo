@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Banner as Banner;
 use Image,Config;
 use Illuminate\Support\Facades\Input;
+use Session;
 class BannerController extends Controller
 {
     /**
@@ -66,6 +67,8 @@ class BannerController extends Controller
         $banner->modified_by=auth()->user()->id;
         $banner->save();
 
+        Session::flash('success','New Banner Created!!');
+
         return redirect()->route('banners.index');
     }
 
@@ -114,7 +117,7 @@ class BannerController extends Controller
         }
         $banner->fill(['title'=>$request->title,'status'=>$request->status,'modified_by'=>$request->user()->id]);
         $banner->save();
-
+         Session::flash('success','Banner updated!!');
         return redirect()->route('banners.index');
         
 
@@ -155,6 +158,8 @@ class BannerController extends Controller
     {
        
         Banner::destroy($id);
+        Session::flash('success','Banner deleted!!');
+
         return redirect()->route('banners.index');
     }
 }

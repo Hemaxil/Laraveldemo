@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use App\Category as Category;
-
+use Session;
 class CategoryController extends Controller
 {
     /**
@@ -54,6 +54,7 @@ class CategoryController extends Controller
         }
         $category=Category::firstOrNew(['name'=>$request->name,'parent_id'=>$parent_category,'created_by'=>$request->user()->id,'modified_by'=>$request->user()->id,'status'=>$request->status]);
         $category->save();
+        Session::flash('success','New category created!!');
         return redirect()->route('categories.index');
     }
 
@@ -91,6 +92,7 @@ class CategoryController extends Controller
         $parent=$request->parent;
         $category->fill(['name'=>$request->name,'parent_id'=>$parent,'status'=>$request->status]);
         $category->save();
+        Session::flash('success','Category updated!!');
 
         return redirect()->route('categories.index');
     }
@@ -116,6 +118,8 @@ class CategoryController extends Controller
     {
        
         Category::destroy($id);
+        Session::flash('success','Category deleted!!');
+
         return redirect()->route('categories.index');
     }
 

@@ -23,7 +23,7 @@
 	    </div> --}}
     </div>
         <!-- /.box-header -->
-        {!! Form::open(['route' => 'products.store','enctype'=>"multipart/form-data"]) !!}
+        {!! Form::open(['route' => 'products.store','enctype'=>"multipart/form-data",'id'=>'product_form']) !!}
     <div class="box-body">
     	
       	<div class="row">
@@ -135,7 +135,7 @@
 						<th>Value</th>
 					</tr>
 					<tr>
-						<td><a class='remove btn btn-danger'><i class='glyphicon glyphicon-trash'></i></a></td>
+						<td>{{-- <a class='remove btn btn-danger'><i class='glyphicon glyphicon-trash'></i></a> --}}</td>
 						<td id='add_attribute'>
 							<select class='form-control attribute_select col-md-4' name='attribute[]' id='attribute'>
 								<option value='select'>Select</option>
@@ -173,6 +173,7 @@
 						<th></th>
 						<th>Images</th>
 					</tr>
+					<tr><td>{{-- <a class='remove btn btn-danger'><i class='glyphicon glyphicon-trash'></i></a> --}}</td><td><input type='file' name='images[]' class='form-control'></td></tr>
 				</table>
 			</div>
 		</div>
@@ -276,7 +277,7 @@
 
  
    
-
+<script type="text/javascript" src={{ asset('js/admin_product.js') }}></script>
 
 	
 @endsection

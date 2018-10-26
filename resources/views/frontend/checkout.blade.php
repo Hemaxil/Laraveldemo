@@ -231,14 +231,16 @@
 				<h3 style="font-family: 'Roboto', sans-serif; color:#696763;font-size:20px;font-weight: 300;">Payment</h3>
 				
 					<span>
-						<label><input type="radio" name="payment[1]" id="cod" checked> COD</label>
+						<label><input type="radio" name="payment" id="cod" checked> COD</label>
 					</span>
 					<span>
-						<label><input type="radio" name="payment[2]" id="paypal"> Paypal</label>
+						<label><input type="radio" name="payment" id="paypal"> Paypal</label>
 					</span>
 
 			</div>
-			<input type="submit" value="Continue" class="continue btn btn-default cart ">
+			{{Form::open(['route'=>'accounts.order_review','id'=>'order_review','method'=>'GET'])}}
+				<input type="submit" value="Place Order" class="continue btn btn-default cart ">
+			{{Form::close()}}
 		</div>
 
 			
@@ -289,7 +291,9 @@
 			data:{'delivery_address':delivery_address,'billing_address':billing_address,'payment':payment},
 	        type: "post",
 		}).done(function (result){
-			console.log(result);
+			if(result){
+				$("#order_review").submit();
+			}
 		});	
 	})
 

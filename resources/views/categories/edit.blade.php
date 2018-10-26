@@ -19,26 +19,26 @@
             <!-- /.box-header -->
             <!-- form start -->
     
-    {!! Form::model($category,['method'=>'PUT','route' => ['categories.update',$category->id],'class'=>'form-horizontal']) !!}
+    {!! Form::model($category,['method'=>'PUT','route' => ['categories.update',$category->id],'class'=>'form-horizontal','id'=>'category_form']) !!}
    
       <div class="box-body">
 
         <div class="form-group">
-          {{Form::label('name', 'Category Name',['class'=>'col-sm-2 control-label'])}}
+          {{Form::label('name', 'Category Name*',['class'=>'col-sm-2 control-label'])}}
           <div class="col-sm-4">
             {{Form::text ('name',null,['class'=>'form-control'])}}
           </div>
         </div>
 
         <div class="form-group">
-          {{Form::label('parent', 'Parent Category',['class'=>'col-sm-2 control-label'])}}
+          {{Form::label('parent', 'Parent Category*',['class'=>'col-sm-2 control-label'])}}
           <div class="col-sm-4">
             {{Form::select('parent',$parent_category,null,['class'=>'form-control'])}}
           </div>
         </div>
        
     	<div class="form-group">
-          {{Form::label('status', 'Status',['class'=>'col-sm-2 control-label'])}}
+          {{Form::label('status', 'Status*',['class'=>'col-sm-2 control-label'])}}
           <div class="col-sm-4">
             {{Form::select('status', ['0' => 'Disabled', '1' => 'Enabled'], null,['class'=>'form-control '])}}
           </div>
@@ -59,5 +59,7 @@
 <script type="text/javascript">
   $(".breadcrumb").append('<li class="active"><a href="{{route('categories.index')}}">Categories</a></li>');
 </script>
+<script type="text/javascript" src="{{asset('js/admin_category.js')}}"></script>
+
   
 @endsection

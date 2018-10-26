@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Product_attribute as Product_attribute;
 use App\Product_Attribute_Value as Product_Attribute_Value;
-
+use Session;
 class Product_Attribute_Value_Controller extends Controller
 {
     /**
@@ -43,7 +43,7 @@ class Product_Attribute_Value_Controller extends Controller
                             'attribute_value'=>'required|alpha_num']);
         $attribute_value=Product_Attribute_Value::create(['product_attribute_id'=>$request->attribute,'attribute_value'=>$request->attribute_value]);
         $attribute_value->save();
-
+        Session::flash('success','Product Attribute Value created!!');
         return redirect()->route('product_attributes_values.index');
 
     }
@@ -78,7 +78,7 @@ class Product_Attribute_Value_Controller extends Controller
         $attribute_value_object->fill(['product_attribute_id'=>$request->product_attribute_id,'attribute_value'=>$request->attribute_value]);
        
         $attribute_value_object->save();
-
+        Session::flash('success','Product Attribute Value Updated!!');
         return redirect()->route('product_attributes_values.index');
     }
 
@@ -103,6 +103,7 @@ class Product_Attribute_Value_Controller extends Controller
     {
        
         Product_Attribute_Value::destroy($id);
+        Session::flash('success','Product Attribute Value Deleted!!');
         return redirect()->route('product_attributes_values.index');
     }
 

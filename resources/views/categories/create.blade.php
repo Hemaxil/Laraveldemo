@@ -18,26 +18,26 @@
     </div>
             <!-- /.box-header -->
             <!-- form start -->
-    {!! Form::open(['route' => 'categories.store','class'=>'form-horizontal']) !!}
+    {!! Form::open(['route' => 'categories.store','class'=>'form-horizontal','id'=>'category_form']) !!}
    
       <div class="box-body">
 
         <div class="form-group">
-          {{Form::label('name', 'Category Name',['class'=>'col-sm-2 control-label'])}}
+          {{Form::label('name', 'Category Name*',['class'=>'col-sm-2 control-label'])}}
           <div class="col-sm-4">
             {{Form::text ('name','',['class'=>'form-control'])}}
           </div>
         </div>
 
         <div class="form-group">
-          {{Form::label('parent', 'Parent Category',['class'=>'col-sm-2 control-label'])}}
+          {{Form::label('parent', 'Parent Category*',['class'=>'col-sm-2 control-label'])}}
           <div class="col-md-4">
             {{Form::select('parent',$parent_category,'0',['class'=>'form-control'])}}
           </div>
         </div>
        
     	<div class="form-group">
-          {{Form::label('status', 'Status',['class'=>'col-sm-2 control-label'])}}
+          {{Form::label('status', 'Status*',['class'=>'col-sm-2 control-label'])}}
           <div class="col-md-4">
             {{Form::select('status', ['0' => 'Disabled', '1' => 'Enabled'], '1',['class'=>'form-control '])}}
           </div>
@@ -54,9 +54,8 @@
 
 @endsection
 @section('additional_js')
-
 <script type="text/javascript">
   $(".breadcrumb").append('<li class="active"><a href="{{route('categories.index')}}">Categories</a></li>');
 </script>
-  
+<script type="text/javascript" src="{{asset('js/admin_category.js')}}"></script>
 @endsection

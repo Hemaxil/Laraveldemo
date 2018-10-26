@@ -10,8 +10,12 @@ use App\Banner as Banner;
 use App\Product_Attribute_Assoc as Product_Attribute_Assoc;
 use App\UserAddress as UserAddress;
 use App\Coupon as Coupon;
+use App\UserOrder as UserOrder;
+use App\OrderDetail as OrderDetail;
 use Cart;
-use Sessions;
+use Session;
+use Srmklive\PayPal\Services\ExpressCheckout;
+use Srmklive\PayPal\Services\AdaptivePayments;
 class HomeController extends Controller
 {
     /**
@@ -26,7 +30,8 @@ class HomeController extends Controller
         $this->configuration='App\Configuration'::where('status','1')->pluck('conf_value','conf_key');
         
         $this->parent_categories='App\Category'::where(['status'=>'1','parent_id'=>null])->get();
-        $this->categories='App\Category'::where('parent_id','<>',null)->where('status','1')->get();
+
+         
     }
 
 
@@ -71,7 +76,7 @@ class HomeController extends Controller
 
         $user_address->save();
 
-
+        Session::flash('success','Address saved!!');
         return back();
 
     }
@@ -96,7 +101,9 @@ class HomeController extends Controller
       }
     }
       Cart::add(['id'=>$product->id,'name'=>$product->name,'qty'=>$request->quantity,'price'=>$product->price,'options'=>['image'=>$product->get_images->first()->image_name]]);
+      session(['cart_total'=>round((float)str_replace(',', '', Cart::total()),2)]);
 
+      Session::flash('success','Item added to cart!');
       return back();
 
     }
@@ -120,19 +127,19 @@ class HomeController extends Controller
       if($request->qty<=$product->quantity){
         $item=Cart::update($request->rowId,['qty'=>$request->qty]);
         if(session()->has('percent_off')){
-           $discount=(session()->get('percent_off'))*0.01*(Cart::subtotal());
-            session(['discount'=>round($discount,2)]);
+          $discount=(session()->get('percent_off'))*0.01*((float)str_replace(',', '', Cart::subtotal())+(float)str_replace(',', '', Cart::tax()));
+          session(['discount'=>round($discount,2)]);
         }
-        session(['cart_total'=>round(Cart::total()-$discount,2)]);
-        echo json_encode([$item,session()->get('discount'),Cart::subtotal(),Cart::tax()]);
+        session(['cart_total'=>round((float)str_replace(',', '', Cart::total())-$discount,2)]);
+        echo json_encode([$item,session()->get('discount'),(float)str_replace(',', '', Cart::subtotal()),(float)str_replace(',', '', Cart::tax()),session()->get('cart_total')]);
       }
       else{
             if(session()->has('percent_off')){
-               $discount=(session()->get('percent_off'))*0.01*(Cart::subtotal());
-               session(['discount'=>round($discount,2)]);
-                session(['cart_total'=>round(Cart::total()-$discount,2)]);
+              $discount=(session()->get('percent_off'))*0.01*((float)str_replace(',', '', Cart::subtotal())+(float)str_replace(',', '', Cart::tax()));
+              session(['discount'=>round($discount,2)]);
+              session(['cart_total'=>round((float)str_replace(',', '', Cart::total())-$discount,2)]);
         }
-            echo json_encode([Cart::get($request->rowId),session()->get('discount'),Cart::subtotal(),Cart::tax()]);
+            echo json_encode([Cart::get($request->rowId),session()->get('discount'),(float)str_replace(',', '', Cart::subtotal()),(float)str_replace(',', '', Cart::tax()),session()->get('cart_total')]);
       }
    
     
@@ -145,6 +152,7 @@ class HomeController extends Controller
     if(Cart::count()==0){
       session(['discount'=>0]);
     }
+    Session::flash('success','Item delted!');
     return redirect()->route('accounts.get_cart');
 
   }
@@ -162,11 +170,14 @@ class HomeController extends Controller
     return back()->withErrors('Coupon code is not available now!');
     }
 
-    $discount=($coupon->percent_off)*0.01*(Cart::subtotal());
+    $discount=round(($coupon->percent_off)*0.01*((float)str_replace(',', '', Cart::subtotal())+(float)str_replace(',', '', Cart::tax())),2);
     session(['coupon_id'=>$coupon->id]);
     session(['percent_off'=>$coupon->percent_off]);
     session(['discount'=>$discount]);
-    session(['cart_total'=>(Cart::total()-$discount)]);
+   $cart_total=((float)str_replace(',','',Cart::total()))-session()->get('discount');
+   session(['cart_total'=>round($cart_total,2)]);
+
+   Session::flash('success','Discount applied!');
     return back();
  }
 
@@ -177,7 +188,7 @@ class HomeController extends Controller
   }
 
   public function saveCheckoutData(Request $request){
-      if($request->delivery_address){
+    if($request->delivery_address){
       session(['delivery_address'=>$request->delivery_address]);
     }
 
@@ -186,12 +197,90 @@ class HomeController extends Controller
     }
 
     if($request->payment){
-      $payment=($request->payment=="cod")?'1':'2';
+      $payment=($request->payment=="cod")?1:2;
       session(['payment'=>$payment]);
     }
-
-
+    return true;
+    //return redirect()->route('accounts.order_review');
   }
 
+  public function showOrderReview(){
+
+    $delivery_address=UserAddress::findOrFail(session()->get('delivery_address'));
+    $billing_address=UserAddress::findOrFail(session()->get('billing_address'));
+      
+    return view('frontend.order_review',['configurations'=>$this->configuration,'delivery_address'=>$delivery_address,'billing_address'=>$billing_address]);
+
+}
+  
+  public function decidePayment(Request $request){
+
+  if(session()->get('payment')==2)
+    return redirect()->route('payment.paypal');
+  
+  return redirect()->route('accounts.save_order');
+
+  }
+  public function saveOrder(Request $request){
+
+    $user_order= UserOrder::create(['user_id'=>$request->user()->id,
+                                      'billing_address_id'=>(int)session()->get('billing_address'),
+                                      'shipping_address_id'=>(int)session()->get('delivery_address'),
+                                      'AWB_NO'=>'abcd45',
+                                      'payment_gateway_id'=>session()->get('payment')
+                                      ,'transaction_id'=>null,
+                                      'status'=>'pending',
+                                      'grand_total'=>session()->get('cart_total'),
+                                      'shipping_charges'=>0.00,
+                                      'coupon_id'=>session()->get('coupon_id')]
+                                      );
+
+      
+     
+      $success=$user_order->save();
+
+       if($success){
+        $total_items=Cart::content();
+      foreach($total_items as $item){
+       
+        $order_detail=OrderDetail::create(['order_id'=>$user_order->id,'product_id'=>$item->id,'quantity'=>$item->qty,'amount'=>($item->price*$item->qty)]);
+        $order_success=$order_detail->save();
+        $product=Product::findOrFail($item->id);
+        $product->quantity=$product->quantity-$item->qty;
+        $product->save();
+      }
+    }
+    if(session()->has('coupon_id')){
+     $coupon=Coupon::findOrFail(session()->get('coupon_id'));
+    $coupon->no_of_uses=-1;
+  }
+   
+    Cart::destroy();
+    session()->forget('coupon_id');
+    session()->forget('discount');
+    session()->forget('payment');
+    session()->forget('cart_total');
+    session()->forget('percent_off');
+
+    Session::flash('success','Order Placed!!');
+    return redirect()->route('home');
+}
+
+  public function viewOrders(){
+
+    $orders=UserOrder::with('get_order_details.get_product_details.get_images')->where('status','<>','cancelled')->get();
+
+    return view('frontend.view_orders',['configurations'=>$this->configuration,'orders'=>$orders]);
+  }
     
+
+  public function cancelOrder(Request $request,$id){
+   $order =UserOrder::destroy($id);
+   Session::flash('success','Order Cancelled!!');
+   return redirect()->route('home');
+   
+  }
+
+
+
 }

@@ -18,6 +18,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Ionicons -->
   <link rel="stylesheet" href={{asset("bower_components/Ionicons/css/ionicons.min.css")}}>
   <!-- Theme style -->
+   <link rel="stylesheet" href={{asset("plugins/iCheck/square/blue.css")}}>
   <link rel="stylesheet" href={{asset("dist/css/AdminLTE.min.css")}}>
   <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
         page. However, you can choose any other skin. Make sure you
@@ -26,6 +27,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
  <link rel="stylesheet" href={{asset("bower_components/select2/dist/css/select2.css")}}>
 <link rel="stylesheet" href={{asset("css/bootstrap-multiselect.css")}} type="text/css" >
+<link rel="stylesheet" href={{asset("bower_components/morris.js/morris.css")}}>
   {{-- <link rel="stylesheet" href={{asset("css/app.css")}}> --}}
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -37,5 +39,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Google Font -->
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+  <style>
+    
+    .error{
+      color:red;
+    }
+  </style>
  
 </head>

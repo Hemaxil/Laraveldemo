@@ -12,6 +12,11 @@
 		  	@if(count($categories)==0)
 				<h5>No Categories Found</h5>
 			@endif
+			@if(Session::has('success'))
+			<div class="alert alert-success" role="alert">
+				{{Session::get('success')}}
+			</div>
+			@endif
 			@if (count($errors) > 0)
   				<div class="alert alert-danger">
 	    		{{-- 	<strong>Whoops!</strong> There were some problems with your input.<br><br> --}}

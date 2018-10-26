@@ -16,7 +16,7 @@
             </ul>
           </div>
       @endif
-            {!! Form::model($coupon,['method'=>'PUT','route' => ['coupons.update',$coupon->id],'class'=>'form-horizontal']) !!}
+            {!! Form::model($coupon,['method'=>'PUT','route' => ['coupons.update',$coupon->id],'class'=>'form-horizontal','coupon_form']) !!}
               <div class="box-body">
                 <div class="row">
                   <div class="form-group col-md-6">
@@ -64,5 +64,6 @@
 
   $(".breadcrumb").append('<li class="active"><a href="{{route('coupons.index')}}">Coupons</a></li>');
 </script>
+<script type="text/javascript" src="{{asset('js/admin_coupon.js')}}"></script>
   
 @endsection

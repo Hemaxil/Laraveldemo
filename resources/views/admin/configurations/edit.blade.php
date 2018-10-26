@@ -16,7 +16,7 @@
             </ul>
           </div>
       @endif
-            {!! Form::model($configuration,['method'=>'PUT','route' => ['configurations.update',$configuration->id],'class'=>'form-horizontal']) !!}
+            {!! Form::model($configuration,['method'=>'PUT','route' => ['configurations.update',$configuration->id],'class'=>'form-horizontal','id'=>'configuration_form']) !!}
               <div class="box-body">
                 <div class="form-group">
                   {{Form::label('conf_key', 'Configuration Key Name',['class'=>'col-sm-2 control-label'])}}
@@ -62,6 +62,8 @@
 
   $(".breadcrumb").append('<li class="active"><a href="{{route('configurations.index')}}">Configurations</a></li>');
 </script>
+<script type="text/javascript" src="{{asset('js/admin_configuration.js')}}"></script>
+
   
 @endsection
 

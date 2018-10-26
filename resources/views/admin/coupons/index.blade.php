@@ -12,6 +12,11 @@
 		  	@empty($coupons)
 				<h5>No Coupons Found</h5>
 			@endempty
+			@if(Session::has('success'))
+			<div class="alert alert-success" role="alert">
+				{{Session::get('success')}}
+			</div>
+			@endif
 			@if (count($errors) > 0)
   				<div class="alert alert-danger">
 	    		{{-- 	<strong>Whoops!</strong> There were some problems with your input.<br><br> --}}

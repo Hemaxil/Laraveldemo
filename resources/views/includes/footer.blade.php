@@ -23,7 +23,11 @@
 <script src={{asset("bower_components/jquery/dist/jquery.min.js")}}></script>
 <script src={{asset("bower_components/jquery-ui/jquery-ui.min.js")}}></script>
 <!-- Bootstrap 3.3.7 -->
+<script src={{asset("js/jquery.validate.min.js")}}></script>
+<script>
+  $(".error").parent().children('input').css('border-color','red');
 
+</script>
 <script src={{asset("bower_components/bootstrap/dist/js/bootstrap.min.js")}}></script>
 <!-- AdminLTE App -->
 <script src={{asset("bower_components/select2/dist/js/select2.min.js")}}></script>
@@ -34,12 +38,14 @@
 <!-- SlimScroll -->
 <script src={{asset("bower_components/jquery-slimscroll/jquery.slimscroll.min.js")}}></script>
 <!-- FastClick -->
+<script src={{asset("bower_components/raphael/raphael.min.js")}}></script>
+<script src={{asset("bower_components/morris.js/morris.min.js")}}></script>
 <script src={{asset("bower_components/fastclick/lib/fastclick.js")}}></script>
 <script src={{asset("/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js")}}></script>
 <script type="text/javascript" src={{asset("js/bootstrap-multiselect.js")}}></script>
 <script src={{asset("dist/js/adminlte.min.js")}}></script>
 <script src={{asset("dist/js/demo.js")}}></script>
-
+<script src={{asset("plugins/iCheck/icheck.min.js")}}></script>
 
   @yield('additional_js')
 

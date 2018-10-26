@@ -19,7 +19,7 @@
             <!-- /.box-header -->
             <!-- form start -->
 
-    {!! Form::open(['route' => 'users.store','class'=>'form-horizontal']) !!}
+    {!! Form::open(['route' => 'users.store','class'=>'form-horizontal','id'=>'user_form']) !!}
       <div class="box-body">
         <div class="form-group">
           {{Form::label('firstname', 'First Name',['class'=>'col-sm-2 control-label'])}}
@@ -91,5 +91,5 @@
 <script type="text/javascript">
   $(".breadcrumb").append('<li class="active"><a href="{{route('users.index')}}">Users</a></li>');
 </script>
-  
+<script type="text/javascript" src="{{ asset('js/admin_user.js') }}"></script>
 @endsection

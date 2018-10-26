@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Role as Role;
-
+use Session;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
@@ -43,7 +43,7 @@ class RoleController extends Controller
         $role=Role::create(['name'=>$request->input('name'),'guard_name'=>'web']);
         //dd($role);
         $role->save();
-
+        Session::flash('success','New Role created!!');
         return redirect()->route('roles.index');
     }
 
@@ -84,6 +84,7 @@ class RoleController extends Controller
             'name'=>'required|max:10']);
         $role->fill(['name'=>$request->name]);
         $role->save();
+        Session::flash('success','Role Updated!!');
         return redirect()->route('roles.index');
     }
 
@@ -107,6 +108,7 @@ class RoleController extends Controller
     {
        
         Role::destroy($id);
+        Session::flash('success','Role deleted');
         return redirect()->route('roles.index');
     }
 }

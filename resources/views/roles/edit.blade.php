@@ -6,7 +6,7 @@
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            {!! Form::model($role,['method'=>'PUT','route' => ['roles.update',$role->id]]) !!}
+            {!! Form::model($role,['method'=>'PUT','route' => ['roles.update',$role->id],'id'=>'role_form']) !!}
             <div class="box-body">
                 <div class="form-group">
                   {{Form::label('name', 'Role Name',['class'=>'col-sm-2 control-label'])}}
@@ -29,5 +29,26 @@
 
   $(".breadcrumb").append('<li class="active"><a href="{{route('roles.index')}}">Roles</a></li>');
 </script>
-  
+  <script type="text/javascript">
+  $("#role_form").validate({
+
+    rules:{
+        name:{
+          required:true,
+          maxlength:45,
+        },
+      
+
+    },
+    messages:{
+        name:{
+          required:"Role name is required",
+          maxlength:"Length should be less than 45",
+        },
+    },
+    errorClass:'error',
+    errorElement:'div',
+    
+  });
+</script>
 @endsection

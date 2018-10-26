@@ -6,7 +6,7 @@
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            {!! Form::open(['route' => 'roles.store','class'=>'form-horizontal']) !!}
+            {!! Form::open(['route' => 'roles.store','class'=>'form-horizontal','id'=>'role_form']) !!}
             <div class="box-body">
                 <div class="form-group">
                   {{Form::label('name', 'Role Name',['class'=>'col-sm-2 control-label'])}}
@@ -28,6 +28,28 @@
 <script type="text/javascript">
 
   $(".breadcrumb").append('<li class="active"><a href="{{route('roles.index')}}">Roles</a></li>');
+</script>
+<script type="text/javascript">
+  $("#role_form").validate({
+
+    rules:{
+        name:{
+          required:true,
+          maxlength:45,
+        },
+      
+
+    },
+    messages:{
+        firstname:{
+          required:"Role name is required",
+          maxlength:"Length should be less than 45",
+        },
+    },
+    errorClass:'error',
+    errorElement:'div',
+    
+  });
 </script>
   
 @endsection

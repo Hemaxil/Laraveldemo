@@ -22,6 +22,13 @@
             </ul>
           </div>
       @endif
+
+      @if(Session::has('success'))
+        <div class="alert alert-success" role="alert">
+          {{Session::get('success')}}
+
+        </div>
+      @endif
        <div class="box">
             <div class="box-header with-border">
               <h3 class="box-title">Banners</h3>
@@ -45,7 +52,7 @@
                     <td><input type=checkbox class="checkbox" id={{$banner->id}}></td>
                     <td>{{$banner->title}}</td>
                     <td>{{$banner->content}}</td>
-                    <td><img src="{{asset('storage/banners/'.$banner->image)}}" height=50 width=50></td>
+                    <td><img src="{{asset('storage/banners/small/'.$banner->image)}}" ></td>
               
                     <td class="status" style="cursor:pointer ;">
                       @if($banner->status==1)

@@ -45,6 +45,7 @@
 								@auth
 								<li><a href={{route('accounts.details',auth()->user()->id)}}><i class="fa fa-user"></i>Hi {{auth()->user()->firstname}}</a></li>
 								@endauth
+								<li><a href=@auth {{route('accounts.view_orders')}} @endauth @guest {{route('guest_home')}} @endguest><i class="fa fa-star"></i> Orders</a></li>
 								<li><a href=@auth {{route('home')}} @endauth @guest {{route('user.login')}} @endguest><i class="fa fa-star"></i> Wishlist</a></li>
 								<li><a href=@auth {{route('home')}} @endauth @guest {{route('user.login')}} @endguest><i class="fa fa-crosshairs"></i> Checkout</a></li>
 								<li><a href=@auth {{route('accounts.get_cart')}} @endauth @guest {{route('user.login')}} @endguest><i class="fa fa-shopping-cart"></i> Cart @if(Cart::content()) ({{Cart::count()}}) @endif</a></li>

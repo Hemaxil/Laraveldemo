@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User as User;
 use App\Role as Role;
 use Illuminate\Support\Facades\Hash;
+use Session;
 
 class UserController extends Controller
 {
@@ -56,6 +57,7 @@ class UserController extends Controller
         foreach($roles as $role){
             $new_user->assignRole($role);
         }
+        Session::flash('success','User created!!');
        
         return redirect()->route('users.index');
     }
@@ -108,6 +110,8 @@ class UserController extends Controller
         $user->fill(['firstname'=>$request->firstname,'lastname'=>$request->lastname,'email'=>$request->email,'password'=>Hash::make($request->password),'status'=>$request->status]);
         $user->save();
         $user->syncRoles($request->roles);
+        Session::flash('success','User updated!!');
+
         return redirect()->route('users.index');    }
 
     /**
@@ -143,6 +147,8 @@ class UserController extends Controller
     {
        
         User::destroy($id);
+        Session::flash('success','User deleted!!');
+
         return redirect()->route('users.index');
     }
 }

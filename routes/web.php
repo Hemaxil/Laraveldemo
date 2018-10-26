@@ -25,6 +25,7 @@ Route::get('products/{id}/details','GuestUserController@get_product_details')->n
 
 
 Route::group(['middleware'=>'auth'],function(){
+    Route::get('/home/checkout/pay_with_paypal','PaymentController@payPaypal')->name('payment.paypal');
     Route::get('/home/myaccountdetails/{id}','HomeController@showAccountsPage')->name('accounts.details');
     Route::post('/home/myaccountdetails/{id}','HomeController@storeAddress')->name('accounts.store_address');
     Route::post('/addtocart/{productid}','HomeController@addItemToCart')->name('accounts.addToCart');
@@ -34,11 +35,16 @@ Route::group(['middleware'=>'auth'],function(){
     Route::post('/home/mycart/get_discount','HomeController@getDiscount')->name('accounts.get_discount');
     Route::get('/home/checkout','HomeController@checkoutView')->name('accounts.get_checkout');
     Route::post('/home/checkout','HomeController@saveCheckoutData')->name('accounts.save_checkout');
-
+    Route::get('/home/checkout/order-review','HomeController@showOrderReview')->name('accounts.order_review');
+    Route::post('/home/checkout/payment-select','HomeController@decidePayment')->name('decide_payment');
+    Route::get('/home/saveorder','HomeController@saveOrder')->name('accounts.save_order');
+    Route::get('/home/view_orders','HomeController@viewOrders')->name('accounts.view_orders');
+    Route::delete('/home/view_orders/{id}','HomeController@cancelOrder')->name('accounts.cancel_order');
+    
+    Route::get('home/checkout/payment_paypal','PaymentController@paypalSuccess')->name('paypal_success');
 
 });
 Route::group(['middleware' => ['role:1'],'prefix'=>'admin'], function () {
-
     Route::delete('roles/delete','RoleController@delete')->name('roles.destroy_all');
     Route::resource('roles','RoleController');
     Route::delete('users/delete','UserController@delete')->name('users.destroy_all');
@@ -47,15 +53,12 @@ Route::group(['middleware' => ['role:1'],'prefix'=>'admin'], function () {
 });
 
 Route::group(['middleware' => ['role:1|2'],'prefix'=>'admin'], function () {
-	Route::get('/', function () { return view('admin.index');
-	})->name('admin.home');
-
-
+	Route::get('/', 'AdminController@index')->name('admin.home');
     Route::delete('configurations/delete','ConfigurationController@delete')->name('configurations.destroy_all');
     Route::resource('configurations','ConfigurationController');
     Route::patch('configurations/', 'ConfigurationController@update_status')->name('configurations.update_status');
-    
-
+    Route::get('get_sales_graph','AdminController@get_sales_data')->name('sales_data');
+   
 
 	
     Route::delete('banners/delete','BannerController@delete')->name('banners.destroy_all');

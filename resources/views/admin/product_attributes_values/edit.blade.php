@@ -18,18 +18,18 @@
     </div>
             <!-- /.box-header -->
             <!-- form start -->
-    {!! Form::model($attribute_value,['method'=>'PUT','route' => ['product_attributes_values.update',$attribute_value->id],'class'=>'form-horizontal']) !!}
+    {!! Form::model($attribute_value,['method'=>'PUT','route' => ['product_attributes_values.update',$attribute_value->id],'class'=>'form-horizontal','id'=>'attribute_value_form']) !!}
     
       <div class="box-body">
         <div class="form-group">
-          {{Form::label('product_attribute_id', 'Attribute',['class'=>'col-sm-2 control-label'])}}
+          {{Form::label('product_attribute_id', 'Attribute*',['class'=>'col-sm-2 control-label'])}}
           <div class="col-sm-4">
             {{Form::select ('product_attribute_id',$attributes,null,['class'=>' form-control'])}}
           </div>
         </div>
 
          <div class="form-group">
-          {{Form::label('attribute_value', 'Value',['class'=>'col-sm-2 control-label'])}}
+          {{Form::label('attribute_value', 'Value*',['class'=>'col-sm-2 control-label'])}}
           <div class="col-sm-4">
             {{Form::text ('attribute_value',null,['class'=>' form-control'])}}
           </div>
@@ -48,5 +48,6 @@
 <script type="text/javascript">
   $(".breadcrumb").append('<li class="active"><a href="{{route('product_attributes_values.index')}}">Atrribute Values</a></li>');
 </script>
-  
+  <script type="text/javascript" src="{{ asset('js/admin_attribute_values.js') }}"></script>
+
 @endsection

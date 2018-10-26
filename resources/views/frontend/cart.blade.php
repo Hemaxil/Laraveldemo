@@ -103,15 +103,15 @@
 				<div class="col-sm-6">
 					<div class="total_area">
 						<ul>
-							<li id="product_total">Cart Sub Total <span>{{Cart::subtotal()}}</span></li>
-							<li id="tax">Tax <span>{{Cart::tax()}}</span></li>
+							<li id="product_total">Cart Sub Total <span>{{(float)str_replace(',', '', Cart::subtotal())}}</span></li>
+							<li id="tax">Tax <span>{{(float)str_replace(',', '', Cart::tax())}}</span></li>
 							<li id="shipping_cost">Shipping Cost <span>Free</span></li>
 							<li id="coupon_discount">Coupons Discount<span>{{session()->has('discount')&&Cart::count()>0 ?session()->get('discount'):0}}</span>
 							<li id="cart_total">Total <span>@if(session()->has('discount')&&Cart::count()>0)
-									{{(int)str_replace(',', '', Cart::total())-session()->get('discount')}}
+									{{(float)str_replace(',', '', Cart::total())-session()->get('discount')}}
 
 								@else
-									{{(int)str_replace(',', '', Cart::total())}}
+									{{(float)str_replace(',', '', Cart::total())}}
 									
 								@endif</span></li>
 						</ul>
@@ -153,9 +153,9 @@ $(document).ready(function(){
 				$("#"+result[0].rowId+" .cart_total_price").html(result[2]);
 				console.log(result[0].subtotal)
 				$("#product_total span").html(result[2]);
-				$("#tax span").html((result[3]).toFixed(2));
-				$("#coupon_discount span").html((result[1]).toFixed(2));
-					$("#cart_total span").html(parseInt(result[2])+parseInt(result[3])-parseInt(result[1]));
+				$("#tax span").html((result[3]));
+				$("#coupon_discount span").html(result[1]);
+					$("#cart_total span").html(result[4]);
 
 			
 				
@@ -180,11 +180,11 @@ $(document).ready(function(){
 				console.log(result[0].rowId);
 
 				$("#"+result[0].rowId+" .cart_total_price").html(result[2]);
-				console.log($("#"+result[0].rowId+" .cart_total_price").html())
+				
 				$("#product_total span").html(result[2]);
-				$("#tax span").html((result[3]).toFixed(2));
-				$("#coupon_discount span").html((result[1]).toFixed(2));
-				$("#cart_total span").html(parseInt(result[2])+parseInt(result[3])-parseInt(result[1]));
+				$("#tax span").html((result[3]));
+				$("#coupon_discount span").html(result[1]);
+					$("#cart_total span").html(result[4]);
 		
 			});
 			

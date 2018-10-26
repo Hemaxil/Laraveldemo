@@ -28,7 +28,7 @@
     <!-- /.social-auth-links -->
       @if($title=="Login")
         <a href="{{ route('password.request') }}">{{ __(' I forgot my password ') }}</a>
-        <a href="{{ route('register') }}" class="text-center">Register a new membership</a>
+        {{-- <a href="{{ route('register') }}" class="text-center">Register a new membership</a> --}}
       @endif
   </div>
   <!-- /.login-box-body -->
