@@ -1,61 +1,63 @@
-  $("#user_form").validate({
+  $("#user_address_form").validate({
 
     rules:{
-        firstname:{
+        address1:{
           required:true,
           maxlength:45,
         },
-       lastname:{
+       address2:{
+         
+          maxlength:45,
+        },
+       city:{
           required:true,
           maxlength:45,
         },
-       email:{
+        state:{
           required:true,
           maxlength:45,
         },
-        password:{
+        country:{
           required:true,
           maxlength:45,
-          email:true,
         },
-        password_confirmation:{
+        zipcode:{
+          required:true,
+          maxlength:6,
+          minlength:6,
+          digits:true,
+        },
 
-          required:true,
-          equalTo:"#password",
-          maxlength:45,
-        },
-        'roles[]':{
-          required:true,
-        },
+        
 
 
     },
     messages:{
-        firstname:{
-          required:"First name is required",
-          maxlength:"Length should be less than 45",
+         address1:{
+          required:"Address 1 is required",
+          maxlength:"Max characters allowed are 45",
         },
-          lastname:{
-          required:"Last name is required",
-          maxlength:"Length should be less than 45",
+       address2:{
+          
+         maxlength:"Max characters allowed are 45",
         },
-         email:{
-          required:"Email is required",
-          maxlength:"Length should be less than 45",
+       city:{
+          required:"City is required",
+         maxlength:"Max characters allowed are 45",
         },
-         password:{
-          required:"Password is required",
-          maxlength:"Length should be less than 45",
-          email:"Enter a valid email",
+        state:{
+          required:"State is required",
+          maxlength:"Max characters allowed are 45",
         },
-        password_confirmation:{
-
-          required:"Password is required",
-          equalTo:"Pasword Confirmation should be same as password",
-          maxlength:"Length should be less than 45",
+        country:{
+          required:"Country is required",
+          maxlength:"Max characters allowed are 45",
         },
-        'roles[]':{
-          required:"User Role is required",
+        zipcode:{
+          required:"Zipcode is required",
+          maxlength:"Only 6 digits are allowed",
+          minlength:"Min 6 digits are required",
+          digits:"Only numbers are allowed",
         },
     },
     errorClass:'error',

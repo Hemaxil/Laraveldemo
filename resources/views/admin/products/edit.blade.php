@@ -24,7 +24,7 @@
     </div>
         <!-- /.box-header -->
 
-        {!! Form::model($product,['method'=>'PUT','route' => ['products.update',$product->id],'enctype'=>"multipart/form-data"]) !!}
+        {!! Form::model($product,['method'=>'PUT','route' => ['products.update',$product->id],'enctype'=>"multipart/form-data",'id'=>'product_form']) !!}
     <div class="box-body">
     	
       	<div class="row">
@@ -145,7 +145,11 @@
 					</tr>
 					@foreach($product_attributes as $product_attribute)
 						<tr>
+							@if($loop->first)
+							<td></td>
+							@else
 							<td><a class='remove btn btn-danger'><i class='glyphicon glyphicon-trash'></i></a></td>
+							@endif
 							<td id='add_attribute'>
 								<select class='form-control attribute_select col-md-4' name='attribute[]' id='attribute'>
 									<option value='select'>Select</option>
@@ -169,7 +173,7 @@
 					@endforeach
 					@if(count($product_attributes)==0)
 						<tr>
-							<td><a class='remove btn btn-danger'><i class='glyphicon glyphicon-trash'></i></a></td>
+							<td></td>
 							<td id='add_attribute'>
 								<select class='form-control attribute_select col-md-4' name='attribute[]' id='attribute'>
 									<option value='select'>Select</option>
@@ -257,7 +261,11 @@
 						</tr>
 						@foreach($product->get_images as $image)
 							<tr>
+								@if($loop->first)
+								<td></td>
+								@else
 								<td><a class=" remove btn btn-danger glyphicon glyphicon-trash" id="delete_{{$image->id}}" href=""></a></span></td>
+								@endif
 								<td><input type='file' name='images[]' value='{{$image->image_name}}' class='form-control'><img src={{asset('storage/products/'.$image->image_name)}}>
 
 								</td>
@@ -426,7 +434,7 @@
 		
 	</script>
 
- 
+ <script type="text/javascript" src="{{asset('js/admin_product.js')}}"></script>
    
 
 

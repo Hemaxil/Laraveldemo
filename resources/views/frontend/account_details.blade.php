@@ -31,7 +31,7 @@
 	
 		<div class="tab-pane fade " id="addaddress" >
 			<div class="col-sm-offset-1">
-				{{Form::open(['route' => ['accounts.store_address',auth()->user()->id]])}}
+				{{Form::open(['route' => ['accounts.store_address',auth()->user()->id],'id'=>'user_address_form'])}}
 
 					<div class="form-group col-sm-10">
 						{{Form::label('address1','Address Line 1',['class'=>'control-label'])}}
@@ -69,7 +69,13 @@
 
 		<div class="tab-pane fade " id="showaddress" >
 			<div class="col-sm-offset-1">
-				{{$user_address}}
+				@if(count($user_address)>0)
+					@foreach($user_address as $address)
+						{{$address->address1}},{{$address->address2}}{{$address->city}}{{$address->state}}{{$address->country}}{{$address->zipcode}}
+					@endforeach
+				@else
+					<p role="alert">No Address Found!!</p>
+				@endif
 			</div>
 		</div>
 	</div>
@@ -77,4 +83,7 @@
 
 
 
+@endsection
+@section('additional_js')
+<script type="text/javascript" src="{{asset('js/user_address.js')}}"></script>
 @endsection

@@ -164,6 +164,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\FacebookServiceProvider::class,
 
     ],
 
@@ -219,6 +220,7 @@ return [
         'Cart' => Gloudemans\Shoppingcart\Facades\Cart::class,
         'PDF' => niklasravnsborg\LaravelPdf\Facades\Pdf::class,
         'PayPal' => Srmklive\PayPal\Facades\PayPal::class,
+        'Facebook'=>App\Providers\FacebookServiceProvider::class,
     ],
 
 ];

@@ -2,7 +2,7 @@
 
 @section('content')
   
-          <form method="POST" action="{{ route('login') }}">
+          <form method="POST" action="{{ route('login') }}" id="user_login_form">
               @csrf
               <div class="form-group has-feedback">
                   <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" placeholder="Email" required autofocus>
@@ -41,4 +41,8 @@
           </form>
      
                
+
+@endsection
+@section('additional_js')
+<script type="text/javascript" src="{{asset('js/admin_user.js')}}"></script>
 @endsection

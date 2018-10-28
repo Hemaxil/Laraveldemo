@@ -93,7 +93,7 @@ public function paypalSuccess(Request $request){
   if($response['ACK']=="Success")
   	return redirect()->route('accounts.save_order');
 
-  return redirect()->route('accounts.get_cart');
+  return redirect()->route('accounts.get_cart')->withErrors('Something went wrong!Please try again!! ');
 
   
   }

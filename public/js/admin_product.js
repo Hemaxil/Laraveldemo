@@ -10,7 +10,7 @@
         short_description:{
           required:true,
           maxlength:100,
-          alphanumeric:true,
+          
 
         },
          sku:{
@@ -21,7 +21,7 @@
         },
         quantity:{
           required:true,
-          min:1,
+          min:0,
           digits:true,
           
 
@@ -62,33 +62,33 @@
           notSelect:true,
         },
         'images[]':{
-         notSelect:true,
+         required:true,
         }
 
 
     },
     messages:{
         name:{
-          required:"Code is required",
+          required:"Product name is required",
+          maxlength:"Max length allowed is 45",
+          alphanumeric:"Name should be alphanumeric",
+
+        },
+        short_description:{
+          required:"Short description is required",
+          maxlength:"Max length allowed is 100",
+          
+
+        },
+        sku:{
+          required:"SKU is required",
           maxlength:"Max length allowed is 45",
           alphanumeric:"Code should be alphanumeric",
 
         },
-        short_description:{
-          required:"Code is required",
-          maxlength:"Max length allowed is 100",
-          alphanumeric:"Code should be alphanumeric",
-
-        },
-        sku:{
-          required:"Code is required",
-          maxlength:"Max length allowed is 100",
-          alphanumeric:"Code should be alphanumeric",
-
-        },
         quantity:{
-          required:"Please enter max numbers of times this can be used",
-          min:"Min value needs to be 1",
+          required:"Please enter quantity available",
+          min:"Min value needs to be 0",
           digits:"Only digits are allowed",
           
 
@@ -102,19 +102,19 @@
           validation_float:"Only upto 2 decimal places allowed",
         },
         meta_title:{
-          required:"Code is required",
+          required:"Meta title is required",
           maxlength:"Max length allowed is 100",
-          alphanumeric:"Code should be alphanumeric",
+          alphanumeric:"Meta title should be alphanumeric",
 
         },
         meta_description:{
-          required:"Code is required",
+          required:"Meta description is required",
           maxlength:"Max length allowed is 100",
           alphanumeric:"Code should be alphanumeric",
 
         },
         meta_keywords:{
-          required:"Code is required",
+          required:"Meta keywords are required",
           maxlength:"Max length allowed is 100",
           alphanumeric:"Code should be alphanumeric",
 

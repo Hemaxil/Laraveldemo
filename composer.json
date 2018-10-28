@@ -17,7 +17,9 @@
         "niklasravnsborg/laravel-pdf": "^2.0",
         "paypal/rest-api-sdk-php": "*",
         "spatie/laravel-permission": "^2.23",
-        "srmklive/paypal": "~1.0"
+        "srmklive/paypal": "~1.0",
+        "facebook/graph-sdk": "^5.6"
+
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",

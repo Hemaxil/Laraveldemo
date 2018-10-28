@@ -18,6 +18,9 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/','GuestUserController@index')->name('guest_home');
 Route::get('user/login','Auth\LoginController@showUserLoginForm')->name('user.login');
+Route::get('facebook_login','Auth\LoginController@loginFacebook')->name('user.facebook');
+Route::get('facebook_login/callback','Auth\LoginController@loginFacebookCallback')->name('user.facebookcallback');
+
 Route::get('categorytree/','GuestUserController@get_child_categories')->name('categorytree');
 
 Route::get('products/{id}','GuestUserController@get_featured_items')->name('get_featured_items');
@@ -44,7 +47,7 @@ Route::group(['middleware'=>'auth'],function(){
     Route::get('home/checkout/payment_paypal','PaymentController@paypalSuccess')->name('paypal_success');
 
 });
-Route::group(['middleware' => ['role:1'],'prefix'=>'admin'], function () {
+Route::group(['middleware' => ['role:admin'],'prefix'=>'admin'], function () {
     Route::delete('roles/delete','RoleController@delete')->name('roles.destroy_all');
     Route::resource('roles','RoleController');
     Route::delete('users/delete','UserController@delete')->name('users.destroy_all');
@@ -52,7 +55,7 @@ Route::group(['middleware' => ['role:1'],'prefix'=>'admin'], function () {
     Route::patch('users/', 'UserController@update_status')->name('users.update_status');
 });
 
-Route::group(['middleware' => ['role:1|2'],'prefix'=>'admin'], function () {
+Route::group(['middleware' => ['role:superadmin|admin'],'prefix'=>'admin'], function () {
 	Route::get('/', 'AdminController@index')->name('admin.home');
     Route::delete('configurations/delete','ConfigurationController@delete')->name('configurations.destroy_all');
     Route::resource('configurations','ConfigurationController');
