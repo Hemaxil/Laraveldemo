@@ -31,7 +31,7 @@
           validation_float:true,
         },
          special_price:{
-        
+          
           validation_float:true,
         },
         meta_title:{
@@ -94,7 +94,7 @@
 
         },
         price:{
-          required:"Percentage off field is required",
+          required:"Price is required",
           validation_float:"Only upto 2 decimal places allowed",
         },
         special_price:{

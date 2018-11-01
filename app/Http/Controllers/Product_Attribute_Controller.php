@@ -55,28 +55,37 @@ class Product_Attribute_Controller extends Controller
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+   
+     /*
+
+    Delete multiple attributes.
+    Input :list of ids to be deleted
+    Output:list of deleted ids 
+    */
      public function delete(Request $request)
     {
         $ids=explode("+",$request->ids);
         $ids = array_filter($ids);
-        //Product_attribute::destroy($ids);
+        Product_attribute::destroy($ids);
 
         $ids =json_encode($ids); 
         return($ids) ;
     }
 
+    /*
 
+     Send all attributes to product create and edit views.
+    */
     public function get_attribute(Request $request){
         $product=Product_attribute::findOrFail($request->id);
         echo json_encode($product);
     }
-
+     /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
      public function destroy($id)
     {
        

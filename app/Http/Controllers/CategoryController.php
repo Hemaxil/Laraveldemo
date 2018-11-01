@@ -6,6 +6,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use App\Category as Category;
 use Session;
+
+
+/*
+
+CRUD for Product Categories
+
+*/
 class CategoryController extends Controller
 {
     /**
@@ -97,39 +104,41 @@ class CategoryController extends Controller
         return redirect()->route('categories.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+     /*
+
+    Delete multiple categories.
+    Input :list of ids to be deleted
+    Output:list of deleted ids 
+    */
     public function delete(Request $request)
     {
         
         $ids=explode("+",$request->ids);
         $ids = array_filter($ids);
-        //Category::destroy($ids);
-
+        Category::destroy($ids);
         $ids =json_encode($ids); 
         return($ids) ;
     }
 
+     /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+
     public function destroy($id)
     {
-       
         Category::destroy($id);
         Session::flash('success','Category deleted!!');
-
         return redirect()->route('categories.index');
     }
-
-    public function show(Request $request,$id)
-    {
-       
-    }
-
-
-
+    /*
+    Make category active /inactive
+    Input:category id
+    Output:category id , status
+    
+    */
     public function update_status(Request $request){
 
         $configuration=Category::findOrFail($request->id);
@@ -154,7 +163,7 @@ class CategoryController extends Controller
                 $result[$category->id]=$category->name;
             }
         }
-        dd($categories);
+        
         echo (json_encode($result));
     }
 }

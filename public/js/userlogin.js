@@ -21,7 +21,7 @@
         password_confirmation:{
 
           required:true,
-          equalTo:"#password",
+          equalTo:"#register_password",
           maxlength:45,
         },
         

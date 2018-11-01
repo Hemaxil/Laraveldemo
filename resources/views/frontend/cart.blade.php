@@ -10,6 +10,12 @@
 	</ul>
 	</div>
 @endif
+@if(Session::has('success'))
+	<div class="alert alert-success" role="alert">
+		{{Session::get('success')}}
+		</div>
+		
+@endif
 
 	<section id="cart_items">
 		<div class="container">

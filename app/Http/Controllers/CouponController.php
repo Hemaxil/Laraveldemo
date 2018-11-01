@@ -49,16 +49,6 @@ class CouponController extends Controller
         return redirect()->route('coupons.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -94,12 +84,13 @@ class CouponController extends Controller
         return redirect()->route('coupons.index');
     }
 
-   /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
+    /*
+
+    Delete multiple banners.
+    Input :list of ids to be deleted
+    Output:list of deleted ids 
+    */
     public function delete(Request $request)
     {
         $ids=explode("+",$request->ids);
@@ -111,7 +102,12 @@ class CouponController extends Controller
     }
 
 
-
+    /*
+    Make coupon active /inactive
+    Input:coupon id
+    Output:coupon id , status
+    
+    */
     public function update_status(Request $request){
 
         $coupon=Coupon::findOrFail($request->id);
@@ -122,6 +118,14 @@ class CouponController extends Controller
         echo json_encode([$request->id,$status]);
 
     }
+
+    
+   /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
      public function destroy($id)
     {
        

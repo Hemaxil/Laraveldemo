@@ -10,7 +10,11 @@ use Srmklive\PayPal\Services\AdaptivePayments;
 
 class PaymentController extends Controller
 {
-   
+   /*
+    Initiate Payment. Compute total amount and set the necessary fields.
+    Then redirect to paypal link with the data
+
+   */
     public function payPaypal(Request $request){
 	   
 	  $provider = new ExpressCheckout;
@@ -51,7 +55,11 @@ class PaymentController extends Controller
 	  return redirect($response['paypal_link']);
 }
 
+/*
 
+Receive payment token and payerid after paypal authenticates user info and gives success.
+
+*/
 public function paypalSuccess(Request $request){
 
   $provider = new ExpressCheckout;
@@ -87,7 +95,9 @@ public function paypalSuccess(Request $request){
   
   $token=$request->token;
   $PayerID=$request->PayerID;
+
   $response = $provider->getExpressCheckoutDetails($token);
+// To do payment and receive status using token,payerid and data.If ACK is success, payment is done, redirect to Create a new order.
 
   $response = $provider->doExpressCheckoutPayment($data, $token, $PayerID);
   if($response['ACK']=="Success")

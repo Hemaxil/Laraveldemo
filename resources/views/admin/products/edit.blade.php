@@ -17,10 +17,7 @@
     <div class="box-header with-border">
         <h3 class="box-title">Edit Product</h3>
 
-	    {{-- <div class="box-tools pull-right">
-	        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-	        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
-	    </div> --}}
+	  
     </div>
         <!-- /.box-header -->
 
@@ -91,36 +88,7 @@
 		        </div>
 		    </div>
 		</div>
-		{{-- <div class="row">
-			<div class="col-md-6">
-				<div class="form-group">
-                	{{Form::label('special_price_from', 'Special Price from',['class'=>'control-label'])}}
-
-	                <div class="input-group date">
-	                  <div class="input-group-addon">
-	                    <i class="fa fa-calendar"></i>
-	                  </div>
-	                  
-	                  <input type="text" name="special_price_from" class="form-control pull-right" id="datepicker">
-	                </div>
-                <!-- /.input group -->
-              </div>
-			</div>
-			<div class="col-md-6">
-				<div class="form-group">
-                	{{Form::label('special_price_to', 'Special Price to',['class'=>'control-label'])}}
-
-	                <div class="input-group date">
-	                  <div class="input-group-addon">
-	                    <i class="fa fa-calendar"></i>
-	                  </div>
-	                  
-	                  <input type="text" name="special_price_to" class="form-control pull-right" id="datepicker">
-	                </div>
-                <!-- /.input group -->
-              </div>
-			</div>
-		</div> --}}
+		
 		<div class="row">
 			<div class="form-group col-md-6">
 				{{Form::label('future','Future',['class'=>'control-label'])}}
@@ -266,7 +234,7 @@
 								@else
 								<td><a class=" remove btn btn-danger glyphicon glyphicon-trash" id="delete_{{$image->id}}" href=""></a></span></td>
 								@endif
-								<td><input type='file' name='images[]' value='{{$image->image_name}}' class='form-control'><img src={{asset('storage/products/'.$image->image_name)}}>
+								<td><input type='file' name='images[]' value='{{$image->image_name}}' class='form-control'><img src={{asset('storage/products/'.$image->image_name)}} height=70px width=70px>
 
 								</td>
 								
@@ -378,59 +346,6 @@
 			$("#uploaded_images").append("<tr><td><a class='remove btn btn-danger'><i class='glyphicon glyphicon-trash'></i></a></td><td><input type='file' name='images[]' class='form-control'></td></tr>");
 
 		});
-		// $("a[id*='delete_product_attribute'").click(function(event){
-		// 	event.preventDefault();
-		// 	$input=this.id
-		// 	$input=$input.split('_');
-		// 	$id=$input[3];
-		// 	$("#delete_ProductAttributeValueController_"+$id).parent().parent('tr').remove();
-		// 	$.ajax({
-		// 		url:'{{route("products.delete_product_attribute")}}',
-		// 		headers:{'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')},
-		// 		type:'delete',
-		// 		dataType:'json',
-		// 		data:{'id':$id}
-		// 	}).done(function(response){
-		// 		console.log(response);
-		// 		console.log("delete_ProductAttributeValueController_"+response);
-		// 		$("#delete_ProductAttributeValueController_"+response).parent().parent('tr').remove();
-		// 	})
-		// })
-		// $("a[id*='delete_product_category_'").click(function(event){
-		// 	event.preventDefault();
-		// 	$input=this.id
-		// 	$input=$input.split('_');
-		// 	$id=$input[3];
-		// 	$.ajax({
-		// 		url:'{{route("products.delete_product_category")}}',
-		// 		headers:{'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')},
-		// 		type:'delete',
-		// 		dataType:'json',
-		// 		data:{'id':$id,'product_id':{{$product->id}}}
-		// 	}).done(function(response){
-		// 		console.log(response);
-		// 		console.log("delete_product_category_"+response);
-		// 		$("#delete_product_category_"+response).parent().parent('tr').remove();
-		// 	});
-		// });
-		
-		// $("a[id*='delete_product_image_'").click(function(event){
-		// 	event.preventDefault();
-		// 	$input=this.id
-		// 	$input=$input.split('_');
-		// 	$id=$input[3];
-		// 	$.ajax({
-		// 		url:'{{route("products.delete_product_image")}}',
-		// 		headers:{'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')},
-		// 		type:'delete',
-		// 		dataType:'json',
-		// 		data:{'id':$id,'product_id':{{$product->id}}}
-		// 	}).done(function(response){
-		// 		console.log(response);
-		// 		console.log("delete_product_image_"+response);
-		// 		$("#delete_product_image_"+response).parent().parent('tr').remove();
-		// 	})
-		// })
 		
 	</script>
 

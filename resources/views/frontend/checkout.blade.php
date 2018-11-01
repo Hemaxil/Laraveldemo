@@ -11,6 +11,12 @@
 	</ul>
 	</div>
 @endif
+@if(Session::has('success'))
+	<div class="alert alert-success" role="alert">
+		{{Session::get('success')}}
+		</div>
+		
+@endif
 <section id="cart_items">
 		<div class="container">
 			<div class="breadcrumbs">
@@ -198,7 +204,7 @@
 
 						
 						<tr>
-							<td colspan="4">&nbsp;</td>
+							<td colspan="3">&nbsp;</td>
 							<td colspan="2">
 								<table class="table table-condensed total-result">
 									<tr>

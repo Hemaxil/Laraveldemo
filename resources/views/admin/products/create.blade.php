@@ -17,10 +17,7 @@
     <div class="box-header with-border">
         <h3 class="box-title">Create Product</h3>
 
-	    {{-- <div class="box-tools pull-right">
-	        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-	        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
-	    </div> --}}
+	   
     </div>
         <!-- /.box-header -->
         {!! Form::open(['route' => 'products.store','enctype'=>"multipart/form-data",'id'=>'product_form']) !!}
@@ -232,26 +229,7 @@
 				
 				});
 		});
-		/*$(".add_category").click(function(event){
-			event.preventDefault();
-			$.ajax({
-				url:'{{route('categories.get_all')}}',
-				headers:{'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')},
-				type:'get',
-				dataType:'json',
-			}).done(function(result){
-				console.log(result);
-				var row="<tr><td></td><td><select class='form-control' name='category[]' id='multi' multiple>";
-				$.each(result,function(key,value){
-					console.log(key,value);
-					row+="<option value="+key+">"+value+"</option>";
-				});
-				row+="</select></td></tr>";
-				$("#category-table").append(row);
-				
-			});
-
-		});*/
+		
 		$(document).on('click',".remove",function(event){
 			event.preventDefault();
 			$(this).parent().parent('tr').remove();

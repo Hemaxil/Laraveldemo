@@ -8,9 +8,7 @@ use Session;
 class ConfigurationController extends Controller
 {
 
-/*    public function __construct(){
-        $this->configurations='App\Configuration'::all();
-    }*/
+
     /**
      * Display a listing of the resource.
      *
@@ -58,16 +56,7 @@ class ConfigurationController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+  
 
     /**
      * Show the form for editing the specified resource.
@@ -104,13 +93,13 @@ class ConfigurationController extends Controller
         return redirect()->route('configurations.index');
 
     }
+    /*
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    Delete multiple configurations.
+    Input :list of ids to be deleted
+    Output:list of deleted ids 
+    */
+    
     public function delete(Request $request)
     {
         $ids=explode("+",$request->ids);
@@ -121,7 +110,12 @@ class ConfigurationController extends Controller
         return($ids) ;
     }
 
-
+     /*
+    Make configuration active /inactive
+    Input:configuration id
+    Output:configuration id , status
+    
+    */
 
     public function update_status(Request $request){
 
@@ -133,6 +127,13 @@ class ConfigurationController extends Controller
         echo json_encode([$request->id,$status]);
 
     }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
 
     public function destroy($id)
     {

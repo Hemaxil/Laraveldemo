@@ -12,6 +12,12 @@
 		</ul>
 		</div>
 	@endif
+	@if(Session::has('success'))
+	<div class="alert alert-success" role="alert">
+		{{Session::get('success')}}
+		</div>
+		
+@endif
 	<div class="container">
 			<div class="row">
 				<div class="col-sm-3">

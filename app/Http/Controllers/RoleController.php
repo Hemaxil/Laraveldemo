@@ -48,17 +48,6 @@ class RoleController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -88,12 +77,14 @@ class RoleController extends Controller
         return redirect()->route('roles.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
+     /*
+
+    Delete multiple roles.
+    Input :list of ids to be deleted
+    Output:list of deleted ids 
+    */
+
     public function delete(Request $request)
     {
         $ids=explode("+",$request->ids);
@@ -103,6 +94,13 @@ class RoleController extends Controller
         print($ids) ;
 
     }
+    /**
+     * Remove the specified resource from storage.
+     *
+     *
+     * @return \Illuminate\Http\Response
+     */
+
 
      public function destroy($id)
     {

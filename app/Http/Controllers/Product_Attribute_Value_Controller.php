@@ -82,22 +82,29 @@ class Product_Attribute_Value_Controller extends Controller
         return redirect()->route('product_attributes_values.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+   
+     /*
+
+    Delete multiple attribute values.
+    Input :list of ids to be deleted
+    Output:list of deleted ids 
+    */
    public function delete(Request $request)
     {
         $ids=explode("+",$request->ids);
         $ids = array_filter($ids);
         Product_Attribute_Value::destroy($ids);
-
         $ids =json_encode($ids); 
         return($ids) ;
     }
 
+
+     /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
 
     public function destroy($id)
     {

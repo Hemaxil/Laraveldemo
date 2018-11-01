@@ -193,12 +193,19 @@ class ProductController extends Controller
         return redirect()->route('products.index');
     }
 
-
+/*
+    Get stored attribute values
+*/
     public function get_attribute_values(Request $request){
         $attribute_values='App\Product_Attribute_Value'::where('product_attribute_id',$request->id)->select('id','attribute_value')->get();
         echo json_encode($attribute_values);
     }
-
+/*
+    Make product active /inactive
+    Input:coupon id
+    Output:coupon id , status
+    
+    */
     public function update_status(Request $request){
 
         $product=Product::findOrFail($request->id);
@@ -209,13 +216,13 @@ class ProductController extends Controller
         echo json_encode([$request->id,$status]);
 
     }
+    /*
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    Delete multiple products.
+    Input :list of ids to be deleted
+    Output:list of deleted ids 
+    */
+
    public function delete(Request $request)
     {
         $ids=explode("+",$request->ids);
@@ -226,6 +233,12 @@ class ProductController extends Controller
         return($ids) ;
     }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function destroy($id)
     {
        

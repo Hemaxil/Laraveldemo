@@ -20,31 +20,24 @@ class GuestUserController extends Controller
 			
 	}
 
+	/*
+
+		Guest User Login page
+
+	*/
     public function index(Request $request){
     	
     	$products=Product::with('get_images','get_categories')->where(['future'=>'1','status'=>'1'])->get();
     	return view('index',['banners'=>$this->banners,'configurations'=>$this->configuration,'parent_categories'=>$this->parent_categories,'categories'=>$this->parent_categories,'featured_items'=>$products]);
     }
-/*
-	
-   public function getCategoryTree($level = null, $prefix = '') {
-	    $rows = 'App\Category'::where('parent_id', $level)->get();
-	    $category ='';
-	    if (count($rows) > 0) {
-	        foreach ($rows as $row) {
-	            $category.=$prefix . $row->name."\n" ;
-	            
-	            $category.= $this->getCategoryTree($row->id, $prefix . '>');
-	        }
-	    }
-	    return $category;
-	}
 
-	public function printCategoryTree(Request $request) {
-	    echo ($this->getCategoryTree($request->id));
-	}
+    /*
+
+		Get child categories of the parent category
+		Input:category id
+		Output: id of the child categories along with the input category
+
 	*/
-
 	public function get_child_categories(Request $request){
 	
 		$parent='App\Category'::where('id',$request->id);
@@ -56,7 +49,13 @@ class GuestUserController extends Controller
 			echo json_encode($child);
 		}
 }
+	/*
+
+	Get all products under a particular category.If the category selected is a parent category , then get all products from all the child categories of the parent.
+	Input:category id
+	Output:Get all products
 	
+	*/
 	public function get_featured_items(Request $request,$id){
 	 	
 		$category='App\Category'::find($id);
@@ -68,12 +67,14 @@ class GuestUserController extends Controller
 					}
 			
 		}
+
 		if(count($child)>0){
-			$products='App\Category'::with('get_products.get_images')->where('id',$child)->get();
+			$products='App\Category'::with('get_products.get_images')->whereIn('id',$child)->get();
 		}else{
 			$products='App\Category'::with('get_products.get_images')->where('id',$id)->get();
 			
 		}
+		
 
 
 		return view('frontend.get_products',['configurations'=>$this->configuration,'parent_categories'=>$this->parent_categories,'categories'=>$this->parent_categories,'category_products'=>$products]);
@@ -81,7 +82,14 @@ class GuestUserController extends Controller
 
 	}
 
+	/*
 
+	Product details view.
+	Retrieve all details related to product-images,attributes.
+	Input:product id
+	Output:product 
+
+	*/
 	public function get_product_details(Request $request,$id){
 
 

@@ -37,10 +37,10 @@ class HomeController extends Controller
 
 
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
+    /*
+
+    Home page for authenticated user
+
      */
       public function index(Request $request){
 
@@ -50,7 +50,13 @@ class HomeController extends Controller
         return view('index',['banners'=>$this->banners,'configurations'=>$this->configuration,'parent_categories'=>$this->parent_categories,'categories'=>$this->parent_categories,'featured_items'=>$products]);
     }
 
+    /*
+        ACcounts view:All details related to user-personal and address.
+        Input:user id
+        Output: user,user addresses
 
+
+    */
       public function showAccountsPage(Request $request){
 
         $user_address=UserAddress::where('user_id',$request->user()->id)->get();
@@ -58,7 +64,10 @@ class HomeController extends Controller
         return view('frontend.account_details',['configurations'=>$this->configuration,'user_address'=>$user_address]);
 
     }
+    /*
+      Store user address 
 
+    */
     public function storeAddress(Request $request, $id){
         
 
@@ -80,7 +89,12 @@ class HomeController extends Controller
         return back();
 
     }
+    /*
 
+    Add Items to the cart
+    Input:product id,quantity
+    Output:Create a cart object using details
+    */
     public function addItemToCart(Request $request,$id){
      
 
@@ -109,6 +123,13 @@ class HomeController extends Controller
     }
 
 
+    /*
+
+      Cart Page view. All the contents in the cart are displayed.
+
+
+    */
+
     public function showCart(Request $request){
 
       $cart_items=Cart::content();
@@ -116,6 +137,11 @@ class HomeController extends Controller
 
     }
 
+    /*
+    Update cart details on any change in quantity.
+    Input:product id,qty,rowid of the cart object
+    Update: Update cart object,recompute discount if any and update cart_total in seesion
+    */
 
     public function updateCart(Request $request){
 
@@ -146,6 +172,11 @@ class HomeController extends Controller
       
   }
 
+  /*
+
+  Delete cart object
+  Input:rowid
+  */
 
   public function deleteCart(Request $request){
     Cart::remove($request->rowId);
@@ -157,6 +188,12 @@ class HomeController extends Controller
 
   }
 
+/*
+
+Compute discount and update cart_total
+Input:coupon_id
+
+*/
 
   public function getDiscount(Request $request){
 
@@ -180,7 +217,11 @@ class HomeController extends Controller
    Session::flash('success','Discount applied!');
     return back();
  }
+/*
 
+Payment checkout view
+
+*/
 
   public function checkoutView(Request $request){
     $user_addresses=UserAddress::where('user_id',$request->user()->id)->get();
@@ -203,7 +244,11 @@ class HomeController extends Controller
     return true;
     //return redirect()->route('accounts.order_review');
   }
+/*
 
+Order review view
+
+*/
   public function showOrderReview(){
 
     $delivery_address=UserAddress::findOrFail(session()->get('delivery_address'));
@@ -212,6 +257,12 @@ class HomeController extends Controller
     return view('frontend.order_review',['configurations'=>$this->configuration,'delivery_address'=>$delivery_address,'billing_address'=>$billing_address]);
 
 }
+/*
+Select payment method.
+If COD => create orders
+If paypal=>redirect to Paypal 
+
+*/
   
   public function decidePayment(Request $request){
 
@@ -221,6 +272,12 @@ class HomeController extends Controller
   return redirect()->route('accounts.save_order');
 
   }
+
+/*
+
+Create order and clear Cart and other session variables.
+
+*/
   public function saveOrder(Request $request){
 
     $user_order= UserOrder::create(['user_id'=>$request->user()->id,
@@ -265,7 +322,11 @@ class HomeController extends Controller
     Session::flash('success','Order Placed!!');
     return redirect()->route('home');
 }
+/*
 
+List all orders and their status
+
+*/
   public function viewOrders(){
 
     $orders=UserOrder::with('get_order_details.get_product_details.get_images')->where('status','<>','cancelled')->get();
@@ -273,7 +334,10 @@ class HomeController extends Controller
     return view('frontend.view_orders',['configurations'=>$this->configuration,'orders'=>$orders]);
   }
     
+/*
 
+Cancel order
+*/
   public function cancelOrder(Request $request,$id){
    $order =UserOrder::destroy($id);
    Session::flash('success','Order Cancelled!!');

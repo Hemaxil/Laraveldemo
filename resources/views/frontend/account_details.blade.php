@@ -69,10 +69,18 @@
 
 		<div class="tab-pane fade " id="showaddress" >
 			<div class="col-sm-offset-1">
+
 				@if(count($user_address)>0)
+				<ol style="background: none;border:none;">
 					@foreach($user_address as $address)
-						{{$address->address1}},{{$address->address2}}{{$address->city}}{{$address->state}}{{$address->country}}{{$address->zipcode}}
+					<li>
+						<p>{{$address->address1}},</p>
+						<p>{{$address->address2}}</p>
+						<p>{{$address->city}},{{$address->state}}</p>
+						<p>{{$address->country}}-{{$address->zipcode}}</p>
+					</li>
 					@endforeach
+				</ol>
 				@else
 					<p role="alert">No Address Found!!</p>
 				@endif

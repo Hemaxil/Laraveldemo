@@ -156,6 +156,7 @@ return [
         Gloudemans\Shoppingcart\ShoppingcartServiceProvider::class,
         niklasravnsborg\LaravelPdf\PdfServiceProvider::class,
         Srmklive\PayPal\Providers\PayPalServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -165,6 +166,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\FacebookServiceProvider::class,
+
 
     ],
 
@@ -221,6 +223,7 @@ return [
         'PDF' => niklasravnsborg\LaravelPdf\Facades\Pdf::class,
         'PayPal' => Srmklive\PayPal\Facades\PayPal::class,
         'Facebook'=>App\Providers\FacebookServiceProvider::class,
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
     ],
 
 ];

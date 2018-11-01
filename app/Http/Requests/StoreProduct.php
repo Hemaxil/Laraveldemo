@@ -38,4 +38,9 @@ class StoreProduct extends FormRequest
             'special_price_to'=>'date|date_format:Y-m-d|after:special_price_from|nullable'
         ];
     }
+    public function messages(){
+        return [
+            'special_price.lt'=>'Special price must be less than price'
+        ];
+    }
 }

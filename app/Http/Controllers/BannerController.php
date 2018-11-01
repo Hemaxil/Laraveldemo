@@ -55,7 +55,9 @@ class BannerController extends Controller
         $path=$request->image->store('public/banners');
        
         $banner->image=explode('/',$path)[2];
-       // $small_image_path=$request->image->storeAs('public/banners/small',$banner->image);
+
+      //images are resized and saved in 3 sizes
+
         $small_img = Image::make($request->image)->resize(200,200);
         $small_img->save(storage_path('app/public/banners/small/'.$banner->image),80);
         $medium_img = Image::make($request->image)->resize(400,400);
@@ -123,13 +125,14 @@ class BannerController extends Controller
 
 
     }
+     /*
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    Delete multiple banners.
+    Input :list of ids to be deleted
+    Output:list of deleted ids 
+    */
+
+    
     public function delete(Request $request)
     {
         $ids=explode("+",$request->ids);
@@ -140,8 +143,12 @@ class BannerController extends Controller
         return($ids) ;
     }
 
-
-
+/*
+    Make banner active /inactive
+    Input:banner id
+    Output:banner id , status
+    
+    */
     public function update_status(Request $request){
         
         $banner=Banner::findOrFail($request->id);
@@ -152,7 +159,12 @@ class BannerController extends Controller
         echo json_encode([$request->id,$status]);
 
     }
-
+/**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
 
      public function destroy($id)
     {
