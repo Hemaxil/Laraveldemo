@@ -91,8 +91,6 @@
 			//console.log(class_name_prev,new_class_name);
 			$(class_name_prev).hide();
 			$(new_class_name).show();
-
-
 		});
 	});
 	});

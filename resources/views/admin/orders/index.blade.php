@@ -1,16 +1,14 @@
 @extends('layouts.master')
 @section('content')
   <div class="panel panel-default">
-    <div class="panel-heading">Banner Details
-      <a class="btn btn-primary glyphicon glyphicon-plus" href={{route('banners.create')}}></a>
-      
+    <div class="panel-heading">Order Details
       <a id="delete_btn" class="btn btn-danger glyphicon glyphicon-trash"></a>
     </div>
     </div>
     <div class="panel-body">
       <div class="table-responsive">
-          @empty($banners)
-        <h5>No Banners Found</h5>
+          @empty($orders)
+        <h5>No Orders Found</h5>
       @endempty
       @if (count($errors) > 0)
           <div class="alert alert-danger">
@@ -31,41 +29,34 @@
       @endif
        <div class="box">
             <div class="box-header with-border">
-              <h3 class="box-title">Banners</h3>
+              <h3 class="box-title">Orders</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
               <table class="table table-bordered">
                 <tr>
                     <th><input type=checkbox id="head" class="checkbox"></th>
-                    <th>Title</th>
-                    <th>Content</th>
-                    <th>Image</th>
+                    <th>Order Id</th>
+                    <th>Payment Method</th>
+                    <th>Amount</th>
                     <th>Status</th>
                     <th>Action</th>
                 </tr>
                 <tbody id="table_body">
           
               
-                  @foreach($banners as $banner)
+                  @foreach($orders as $order)
                   <tr>
-                    <td><input type=checkbox class="checkbox" id={{$banner->id}}></td>
-                    <td>{{$banner->title}}</td>
-                    <td>{{$banner->content}}</td>
-                    <td><img src="{{asset('storage/banners/small/'.$banner->image)}}" ></td>
-              
-                    <td class="status" style="cursor:pointer ;">
-                      @if($banner->status==1)
-                        <a class="status-1-{{$banner->id}}">Enabled</a>
-                        <a class="status-0-{{$banner->id}}" hidden>Disabled</a>
-                      @else
-                        <a class="status-1-{{$banner->id}}" hidden>Enabled</a>
-                        <a class="status-0-{{$banner->id}}">Disabled</a>
-                      @endif
+                    <td><input type=checkbox class="checkbox" id={{$order->id}}></td>
+                    <td>{{$order->id}}</td>
+                    <td>@if($order->payment_gateway_id==1) COD @else Paypal @endif</td>
+                    <td>{{$order->grand_total}}</td>
+                    <td class="status-{{$order->id}}" style="cursor:pointer ;">
+                        <a class="{{$order->status}}-{{$order->id}}">{{$order->status}}</a>
                     </td>
-                    <td><a id='banner.{{$banner->id}}' href={{route('banners.edit',['banner'=>$banner->id])}} class="btn btn-primary glyphicon glyphicon-pencil" ></a>
-                    <i class="delete_single btn btn-danger glyphicon glyphicon-trash" id={{$banner->id}}></i></a>
-                    <form id='delete{{$banner->id}}' method="POST" action="{{route('banners.destroy',['banner'=>$banner->id])}}">
+                    <td>{{-- <a id='order.{{$order->id}}' href={{route('orders.edit',['order'=>$order->id])}} class="btn btn-primary glyphicon glyphicon-pencil" ></a> --}}
+                    <a><i class="delete_single btn btn-danger glyphicon glyphicon-trash" id={{$order->id}}></i></a>
+                    <form id='delete{{$order->id}}' method="POST" action="{{route('orders.destroy',['order'=>$order->id])}}">
                       @method('DELETE')
                       @csrf
                     <input style="display:none;" type="submit" class="btn btn-danger">
@@ -82,7 +73,7 @@
             
             <div class="box-footer clearfix">
               <ul class="pagination pagination-sm no-margin pull-right">
-                {{$banners->links()}}
+                {{$orders->links()}}
               </ul>
             </div>
           </div>
@@ -102,9 +93,29 @@
     if(yes_del==1){
       $("#delete"+this.id).submit();
     }});
-  delete_btn('{{route('banners.destroy_all')}}');
-  update_status('{{route('banners.update_status')}}');
-  $(".breadcrumb").append('<li class="active"><a href="{{route('banners.index')}}">Banners</a></li>');
+  delete_btn('{{route('orders.destroy_all')}}');
+ $(document).on('click',"td[class*='status-'] a",function(event){
+  event.preventDefault();
+  var status=(this.className).split('-')[0];
+  var id=(this.className).split('-')[1];
+  
+  $.ajax({
+    url:'{{route('orders.update_status')}}',
+    headers:{'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')},
+    data:{'id':id,'status':status},
+    dataType:'json',
+    type: "patch",
+   }).done(function(result){
+    console.log(result,"status-"+result[0]);
+      $(".status-"+result[0]).children().remove();
+      $(".status-"+result[0]).append("<a class='"+result[1]+"-"+result[0]+"'>"+result[1]+"</a>");
+      if(result[1]=='delivered'){
+        $(".status-"+result[0]+"a").attr('hidden',true);
+      }
+   });
+
+ })
+  $(".breadcrumb").append('<li class="active"><a href="{{route('orders.index')}}">Banners</a></li>');
 </script>
   
 @endsection

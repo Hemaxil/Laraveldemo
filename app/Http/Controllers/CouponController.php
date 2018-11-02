@@ -87,7 +87,7 @@ class CouponController extends Controller
 
     /*
 
-    Delete multiple banners.
+    Delete multiple coupons.
     Input :list of ids to be deleted
     Output:list of deleted ids 
     */
@@ -95,7 +95,7 @@ class CouponController extends Controller
     {
         $ids=explode("+",$request->ids);
         $ids = array_filter($ids);
-        //Coupon::destroy($ids);
+        Coupon::destroy($ids);
 
         $ids =json_encode($ids); 
         return($ids) ;

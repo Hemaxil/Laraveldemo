@@ -227,7 +227,7 @@ class ProductController extends Controller
     {
         $ids=explode("+",$request->ids);
         $ids = array_filter($ids);
-        //Product::destroy($ids);
+        Product::destroy($ids);
 
         $ids =json_encode($ids); 
         return($ids) ;

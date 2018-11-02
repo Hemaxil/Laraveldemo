@@ -89,7 +89,7 @@ class RoleController extends Controller
     {
         $ids=explode("+",$request->ids);
         $ids = array_filter($ids);
-        //Role::destroy($ids);
+        Role::destroy($ids);
         $ids =json_encode($ids); 
         print($ids) ;
 

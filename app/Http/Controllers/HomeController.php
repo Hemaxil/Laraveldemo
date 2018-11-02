@@ -31,7 +31,7 @@ class HomeController extends Controller
         
         $this->parent_categories='App\Category'::where(['status'=>'1','parent_id'=>null])->get();
 
-         
+       
     }
 
 
@@ -97,15 +97,29 @@ class HomeController extends Controller
     */
     public function addItemToCart(Request $request,$id){
      
-
+      //get product
       $product=Product::with('get_images')->findOrFail($id);
+
+
+      //check if the quantity entered is null or 0
 
       if($request->quantity==null || $request->quantity==0){
       return back()->withInput($request->input())->withErrors('Min unit needs to be 1');
-    }
-      if($request->quantity>$product->quantity ){
+        }
+      //to check if the product exists in cart 
+
+      $cart_product=Cart::content()->groupBy('id')->get($id);
+
+      //if not present check the quantity requested with the entered one. If present then compare with quantity requested and entered.
+
+      if($cart_product==null){
+       if($request->quantity>$product->quantity){
         return back()->withInput($request->input())->withErrors('Only '.$product->quantity.'units are available');
+        }
       }
+      else if(($request->quantity+($cart_product->first()->qty))>$product->quantity ){
+        return back()->withInput($request->input())->withErrors('Only '.$product->quantity.'units are available');
+            }
       if($product->special_price_from && $product->special_price_to){
         $date=date('Y-m-d');
         if($date<=$product->special_price_to && $date>=$product->special_price_from){

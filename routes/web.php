@@ -130,9 +130,7 @@ Product routes
     Route::resource('products','ProductController')->except(['show']);
     Route::get('products/get_attribute_values','ProductController@get_attribute_values')->name('products.get_attr_value');
     Route::patch('products/', 'ProductController@update_status')->name('products.update_status');
-    // Route::delete('products/delete_attributes','ProductController@delete_product_attribute')->name('products.delete_product_attribute');
-    // Route::delete('products/delete_categories','ProductController@delete_product_category')->name('products.delete_product_category');
-    // Route::delete('products/delete_image','ProductController@delete_product_image')->name('products.delete_product_image');
+    
 
 /*
 Product attributes
@@ -157,5 +155,10 @@ Coupons routes
     Route::delete('coupons/delete_all','CouponController@delete')->name('coupons.destroy_all');
     Route::resource('coupons','CouponController')->except(['show']);
     Route::patch('coupons/', 'CouponController@update_status')->name('coupons.update_status');
+
+
+     Route::delete('orders/delete_all','OrderController@delete')->name('orders.destroy_all');
+    Route::resource('orders','OrderController');
+    Route::patch('orders/', 'OrderController@updateStatus')->name('orders.update_status');
 });
 
