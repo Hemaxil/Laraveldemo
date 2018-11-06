@@ -52,7 +52,7 @@ class CategoryController extends Controller
     public function store(Request $request)
     {   
 
-        $request->validate(['name'=>'required|alpha_dash']);
+        $request->validate(['name'=>'required']);
        
         if ($request->parent=='0'){
             $parent_category=null;
@@ -91,7 +91,7 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         
-        $request->validate(['name'=>'required|alpha_dash']);
+        $request->validate(['name'=>'required']);
         $category=Category::findOrFail($id);
         if($request->parent=='0'){
             $parent=null;

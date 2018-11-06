@@ -100,6 +100,7 @@ public function paypalSuccess(Request $request){
 // To do payment and receive status using token,payerid and data.If ACK is success, payment is done, redirect to Create a new order.
 
   $response = $provider->doExpressCheckoutPayment($data, $token, $PayerID);
+  session(['transaction_id'=>$response['PAYMENTINFO_0_TRANSACTIONID']]);
   if($response['ACK']=="Success")
   	return redirect()->route('accounts.save_order');
 

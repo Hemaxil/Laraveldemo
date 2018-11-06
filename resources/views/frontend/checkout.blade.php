@@ -68,9 +68,9 @@
 						<div class="bill-to">
 							<p>Add New Address</p>
 						</div>	
-						<div class="form-one">
+						<div class="form-one" >
 
-							{{Form::open(['route' => ['accounts.store_address',auth()->user()->id]])}}
+							{{Form::open(['route' => ['accounts.store_address',auth()->user()->id],'id'=>'user_address_form'])}}
 								
 								{{Form::text('address1','',['placeholder'=>'Address 1'])}}
 							
@@ -126,7 +126,7 @@
 						</div>	
 						<div class="form-one">
 
-							{{Form::open(['route' => ['accounts.store_address',auth()->user()->id]])}}
+							{{Form::open(['route' => ['accounts.store_address',auth()->user()->id],'id'=>'user_address_form'])}}
 								
 								{{Form::text('address1','',['placeholder'=>'Address 1'])}}
 							
@@ -254,6 +254,7 @@
 	</section> <!--/#cart_items-->
 @endsection
 @section('additional_js')
+<script type="text/javascript" src={{asset("js/user_address.js")}}></script>
 <script type="text/javascript">
 	
 	$("#same_as_billing").change(function(){

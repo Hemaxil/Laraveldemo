@@ -28,10 +28,7 @@ class HomeController extends Controller
         $this->middleware('auth');
         $this->banners='App\Banner'::where('status','1')->get();
         $this->configuration='App\Configuration'::where('status','1')->pluck('conf_value','conf_key');
-        
-        $this->parent_categories='App\Category'::where(['status'=>'1','parent_id'=>null])->get();
-
-       
+        $this->parent_categories='App\Category'::where(['status'=>'1','parent_id'=>null])->get();    
     }
 
 
@@ -263,7 +260,7 @@ Payment checkout view
 Order review view
 
 */
-  public function showOrderReview(){
+  public function showOrderReview(Request $request){
 
     $delivery_address=UserAddress::findOrFail(session()->get('delivery_address'));
     $billing_address=UserAddress::findOrFail(session()->get('billing_address'));
@@ -294,12 +291,16 @@ Create order and clear Cart and other session variables.
 */
   public function saveOrder(Request $request){
 
+    if(session()->has('transaction_id'))
+      $transaction=session()->get('transaction_id');
+    else
+      $transaction=null;
     $user_order= UserOrder::create(['user_id'=>$request->user()->id,
                                       'billing_address_id'=>(int)session()->get('billing_address'),
                                       'shipping_address_id'=>(int)session()->get('delivery_address'),
                                       'AWB_NO'=>'abcd45',
                                       'payment_gateway_id'=>session()->get('payment')
-                                      ,'transaction_id'=>null,
+                                      ,'transaction_id'=>$transaction,
                                       'status'=>'pending',
                                       'grand_total'=>session()->get('cart_total'),
                                       'shipping_charges'=>0.00,
@@ -332,7 +333,7 @@ Create order and clear Cart and other session variables.
     session()->forget('payment');
     session()->forget('cart_total');
     session()->forget('percent_off');
-
+    session()->forget('transaction_id');
     Session::flash('success','Order Placed!!');
     return redirect()->route('home');
 }

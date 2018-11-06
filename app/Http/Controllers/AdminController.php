@@ -29,7 +29,7 @@ class AdminController extends Controller
     	$todays_date=Carbon::today();
     	//users created today
     	$new_users=count('App\User'::whereDate('created_at',$todays_date->toDateString())->get());
-        $total_sales=0;
+      $total_sales=0;
         
 
        
@@ -50,7 +50,7 @@ class AdminController extends Controller
 
 
    		
-        return view('admin.index',['page_header'=>'Dashboard','page_desc'=>'Control Panel','new_users'=>$new_users,'new_orders'=>count($new_orders),'total_sales'=>$total_sales,'total_orders'=>$total_orders,'all_orders'=>$this->all_orders->take(10)]);
+      return view('admin.index',['page_header'=>'Dashboard','page_desc'=>'Control Panel','new_users'=>$new_users,'new_orders'=>count($new_orders),'total_sales'=>$total_sales,'total_orders'=>$total_orders,'all_orders'=>$this->all_orders->take(10)]);
     }
 
 //To compute data for sales and orders graphs
@@ -62,7 +62,11 @@ class AdminController extends Controller
         })->map(function($item,$key){
           return ($item->sum('grand_total'));
         });
-
+       $orders_graph=$this->all_orders->groupBy(function($item){
+          return ($item->created_at->format('Y:m'));
+        })->map(function($item,$key){
+          return ($item->count());
+        });
        
           $sales_str="[";
         foreach($sales_graph as $key=>$value){
@@ -73,12 +77,9 @@ class AdminController extends Controller
             $sales_str.='{"Month": "' . $key . '", "Sales":"'.$value .'"},';
         }
           $sales_str.="]";
-        $orders_graph=$this->all_orders->groupBy(function($item){
-          return ($item->created_at->format('Y:m'));
-        })->map(function($item,$key){
-          return ($item->count());
-        });
+       
         $orders_str="[";
+      
         foreach($orders_graph as $key=>$value){
 
           if($orders_graph->last()==$value)

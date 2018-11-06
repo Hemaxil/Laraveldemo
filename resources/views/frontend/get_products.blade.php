@@ -16,6 +16,11 @@
 					<div class="features_items"><!--features_items-->
 						{{-- <h2 class="title text-center">Feature Items</h2> --}}
 						
+						@if(count($category_products)==1)
+							@if(count($category_products->first()->get_products)<=0)
+								<p class='cart text-center'>Coming Soon!!!</p>
+							@endif
+						@endif
 						@foreach($category_products as $category_product)
 							
 								@foreach($category_product->get_products as $product)
